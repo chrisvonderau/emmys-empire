@@ -314,12 +314,14 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 #pip{bottom:auto;top:max(1.2vh,env(safe-area-inset-top));right:max(1.2vh,env(safe-area-inset-right))}
 /* ---------- v0.6 Fruit Pop Jar ---------- */
 #fruitScene{position:absolute;inset:0;background:linear-gradient(#9fdcff 0 48%,#fff3c8 48% 58%,#f3d7a0 58% 100%)}
-.fruitWin{position:absolute;right:4vw;top:6vh;width:min(22vw,28vh);height:min(22vw,24vh);border:.9vh solid #fff;border-radius:2vh;background:linear-gradient(#c8eeff,#eef9ff);box-shadow:0 .6vh 0 rgba(0,0,0,.08);z-index:1}
-.fruitWin::after{content:"";position:absolute;left:12%;top:18%;width:28%;height:28%;border-radius:50%;background:#ffd23f;box-shadow:0 0 3vh #ffd23f}
+.fruitWin{position:absolute;right:max(1.4vw,env(safe-area-inset-right));top:auto;bottom:22%;width:min(12vw,16vh);height:min(12vw,14vh);border:.7vh solid #fff;border-radius:1.6vh;background:linear-gradient(#c8eeff,#eef9ff);box-shadow:0 .5vh 0 rgba(0,0,0,.08);z-index:1}
+.fruitWin::after{content:"";position:absolute;left:12%;top:18%;width:28%;height:28%;border-radius:50%;background:#ffd23f;box-shadow:0 0 2vh #ffd23f}
 .fruitTable{position:absolute;left:0;right:0;bottom:0;height:42%;background:#e8c48a;z-index:1}
 .fruitCloth{position:absolute;left:0;right:0;bottom:28%;height:8vh;background:repeating-linear-gradient(90deg,#ff8fb8 0 4vw,#fff 4vw 8vw);opacity:.8;z-index:2}
-#fruitCV{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:min(86vh,55vw);width:calc(min(86vh,55vw) * .72);z-index:4;touch-action:none}
-#fruitHud{position:absolute;right:max(1.2vh,env(safe-area-inset-right));top:max(1.2vh,env(safe-area-inset-top));z-index:8;display:none;flex-direction:column;align-items:flex-end;gap:1vh;pointer-events:none}
+#fruitCV{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:min(90vh,86vw);width:min(70vw,calc(min(90vh,86vw)*0.90));z-index:4;touch-action:none}
+/* Move the star + sticker-jar pills off the lid/dropper and into the right gutter while Fruit Pop Jar is open. */
+#fruit.on ~ #hud{left:auto;right:max(1.2vh,env(safe-area-inset-right));transform:none;flex-direction:column;align-items:flex-end;gap:.8vh}
+#fruitHud{position:absolute;right:max(1.2vh,env(safe-area-inset-right));top:calc(max(1.5vh,env(safe-area-inset-top)) + 26.4vh);z-index:8;display:none;flex-direction:column;align-items:flex-end;gap:1vh;pointer-events:none}
 #fruit.grown #fruitHud{display:flex}
 #fruitScoreWrap,#fruitNextWrap{background:rgba(255,255,255,.92);border-radius:2.4vh;padding:1vh 1.6vh;box-shadow:0 .6vh 0 rgba(0,0,0,.1);color:#5b3a78;font-weight:800;text-align:center;min-width:min(16vh,14vw)}
 #fruitScoreWrap span{display:block;line-height:1.1}
