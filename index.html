@@ -374,15 +374,20 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 .pnote{font-size:2.6vh;opacity:.75}
 #rotate{position:fixed;inset:0;z-index:200;background:#bfe8ff;display:none;align-items:center;justify-content:center;flex-direction:column}
 #rotate svg{width:min(70vw,60vh)}
+#rotateMsg{margin:2vh 6vw 0;font-weight:800;font-size:min(8vw,7vh);color:#5b3a78;text-align:center;line-height:1.15}
 @media (orientation:portrait){#rotate{display:flex}}
+html.land #rotate{display:none!important}
+html.port #rotate{display:flex!important}
 #rotPhone{transform-box:fill-box;transform-origin:center;animation:rot 2.4s ease-in-out infinite}
 @keyframes rot{0%,25%{transform:rotate(0)}55%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+#boot{position:fixed;inset:0;z-index:180;background:#bfe8ff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:min(8vw,6vh);color:#5b3a78;pointer-events:none}
+#boot.off{display:none!important}
 </style>
 </head>
 <body>
 <div id="app">
 <!-- ================= HOME ================= -->
-<section id="home" class="screen">
+<section id="home" class="screen on">
 <svg id="scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
 <defs>
 <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset=".7" stop-color="#d9f3ff"/><stop offset="1" stop-color="#fff6d6"/></linearGradient>
@@ -511,12 +516,22 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 <div class="pnote">Everything stays on this device. No internet, ads, or accounts. Controller: B closes.</div>
 <div class="close" id="parentClose"></div>
 </div></div>
+<div id="boot">Emmy's Empire</div>
 <div id="rotate"><svg viewBox="0 0 300 300" aria-label="Turn me sideways">
 <circle cx="150" cy="150" r="130" fill="#fff" opacity=".7"/>
 <g id="rotPhone"><rect x="105" y="60" width="90" height="170" rx="18" fill="#5b4a8b"/><rect x="113" y="74" width="74" height="142" rx="8" fill="#bfe8ff"/><circle cx="150" cy="145" r="22" fill="#ffd23f"/><circle cx="143" cy="140" r="3" fill="#7a4a1e"/><circle cx="157" cy="140" r="3" fill="#7a4a1e"/><path d="M141 152 q9 8 18 0" stroke="#7a4a1e" stroke-width="3" fill="none" stroke-linecap="round"/></g>
 <path d="M235 110 A95 95 0 0 1 235 190" stroke="#ff6fa3" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M222 186 l14 18 l12 -22z" fill="#ff6fa3"/>
-</svg></div>
+</svg><p id="rotateMsg">Turn me sideways!</p></div>
 </div>
+<script>
+"use strict";
+function hideBoot(){try{var b=document.getElementById("boot");if(b){b.classList.add("off");b.setAttribute("aria-hidden","true");}}catch(e){}}
+function syncOrient(){try{var land=innerWidth>=innerHeight;document.documentElement.classList.toggle("land",land);document.documentElement.classList.toggle("port",!land);}catch(e){}}
+syncOrient();
+["resize","orientationchange","pageshow","visibilitychange"].forEach(function(ev){window.addEventListener(ev,syncOrient);});
+if(window.visualViewport){try{visualViewport.addEventListener("resize",syncOrient);}catch(e){}}
+setTimeout(function(){try{hideBoot();if(!document.querySelector(".screen.on")){var h=document.getElementById("home");if(h)h.classList.add("on");}}catch(e){}},3000);
+</script>
 <script>
 "use strict";
 (function(){
@@ -919,7 +934,7 @@ function rumble(pad,ms,strong){try{if(!pad)return;const va=pad.vibrationActuator
 let lastPad=null;
 /* ================= screens ================= */
 let screen="home";
-function show(name){screen=name;document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===name));$("gear").style.display=name==="home"?"flex":"none";hideCursors();if(name==="paint")sizePaper();}
+function show(name){hideBoot();screen=name;document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===name));$("gear").style.display=name==="home"?"flex":"none";hideCursors();if(name==="paint")sizePaper();}
 /* ================= home ================= */
 const bubbles=[];let selIdx=-1,selAt=0,homeFocus=0,padMode=false;
 (function buildHome(){const wrap=$("bubbles");GAMES.forEach((g,i)=>{const b=document.createElement("div");b.className="bubble padable "+(g[4]?"live":"locked");b.style.setProperty("--c",g[2]);b.style.setProperty("--c2",g[3]);b.style.setProperty("--d",(i*.7)+"s");b.dataset.i=i;b.setAttribute("role","button");b.setAttribute("aria-label",g[1]);b.innerHTML='<svg viewBox="0 0 100 100">'+ICONS[g[0]]+'</svg>'+(g[4]?"":'<div class="soon">'+LOCK+'Soon!</div>');b.addEventListener("pointerdown",e=>{e.preventDefault();padMode=false;clearFocus();tapBubble(i,false);});wrap.appendChild(b);bubbles.push(b);});
@@ -1722,8 +1737,8 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden){try{SS&&SS
 window.__ee={get state(){return S;},get screen(){return screen;},openGame,goHome,earnStar,newPaper,pickColor,openBook,showPage,animals:ANIMALS.map(a=>[a[0],a[1],a[2]]),tapDoor,closeDoor,doors:()=>barnDoors.map(d=>({a:d.a,open:d.open})),setDoorAnimal:(i,k)=>{const D=barnDoors[i];D.a=k;D.el.querySelector(".ani").innerHTML=ANIMALS[k][4];},animalSound,huntRound,peekRound,tapSpot,spawnBubble,popBubble,bubbles:()=>BUBS.map(b=>({id:b.id,kind:b.kind,val:b.val,x:b.x,y:b.y,s:b.s})),evVars:EV_VARS.map(v=>v[0]),bubItems:BUB_ITEMS.map(b=>b[0]),doDance,setScene,clearScene,perPage,tuneOn:()=>!!danceTune,setCur:(k,x,y)=>{curs[k]=curs[k]||{};curs[k].x=x;curs[k].y=y;},zoo:()=>JSON.parse(JSON.stringify(zooState())),dances:DANCES.map(d=>d[0]),albumGo,albumTap,photos:PHOTOS.map(p=>p.id),soundCheck,unlockAudio,peekPhotoReveal,acState:()=>AC?AC.state:"none",acSuspend:()=>AC&&AC.suspend(),tapBath,tapBeep,setWeather,clearDress,placeWorn,setHomePage,homePage:()=>homePage,worn:()=>Object.assign({},wornSlots),dressDrop:(k,x,y)=>dressDrop({k},x,y),shapeDrop:(kind,x,y)=>shapeDrop({kind,col:kind,i:kind},x,y),foodDrop:(k,x,y)=>foodDrop({k},x,y),shapeBoard:()=>[...document.querySelectorAll("#shapeBoard .hole")].map(h=>h.getBoundingClientRect()),feedAnimals:()=>[...document.querySelectorAll("#feedAnimals .feeder")].map(h=>h.getBoundingClientRect()),dressBox:()=>{const r=$("dressEmmy").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},wx:()=>window.__weather,fruitMode:()=>FJ.grown?"grown":"toddler",setFruitMode:g=>fruitSetMode(!!g,false),fruitDrop:x=>fruitDropAt(x),fruitSpawn:(t,x,y)=>fruitAdd(t,x,y),fruitList:()=>FJ.items.filter(f=>!f.dead).map(f=>({id:f.id,type:f.type,x:f.x,y:f.y,r:f.r})),fruitScore:()=>FJ.score,fruitBest:()=>S.fruitBest||0,fruitOver:()=>FJ.over,fruitPour:()=>FJ.pouring,fruitNext:()=>FJ.next,fruitHeld:()=>FJ.held&&FJ.held.type,fruitMergePair:t=>fruitTestMerge(t),fruitFillToddler:()=>fruitForceFill(),fruitForceOver:()=>fruitForceOver(),fruitPlantDanger:()=>fruitPlantDanger(),fruitReset:keep=>fruitResetRound(!!keep),fruitBox:()=>{const r=$("fruitCV").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},fruitSetScore:n=>{FJ.score=+n||0;if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}fruitHud();}};
 /* ================= boot ================= */
 updHud();sizePaper();
-if(GAME_IDS.indexOf(S.lastGame)>=0||S.lastGame==="zoo"){openGame(S.lastGame);}else{show("home");}
-requestAnimationFrame(loop);
+try{if(GAME_IDS.indexOf(S.lastGame)>=0||S.lastGame==="zoo"){openGame(S.lastGame);}else{show("home");}
+requestAnimationFrame(loop);}catch(e){try{hideBoot();show("home");}catch(e2){try{var h=document.getElementById("home");if(h)h.classList.add("on");hideBoot();}catch(e3){}}}
 if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
 })();
 </script>
