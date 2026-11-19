@@ -312,6 +312,36 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 #wxEverett{position:absolute;left:12vw;bottom:22vh;width:min(18vh,15vw);cursor:pointer;z-index:6}
 #wxEverett svg{width:100%;height:auto;pointer-events:none}
 #pip{bottom:auto;top:max(1.2vh,env(safe-area-inset-top));right:max(1.2vh,env(safe-area-inset-right))}
+/* ---------- v0.6 Fruit Pop Jar ---------- */
+#fruitScene{position:absolute;inset:0;background:linear-gradient(#9fdcff 0 48%,#fff3c8 48% 58%,#f3d7a0 58% 100%)}
+.fruitWin{position:absolute;right:4vw;top:6vh;width:min(22vw,28vh);height:min(22vw,24vh);border:.9vh solid #fff;border-radius:2vh;background:linear-gradient(#c8eeff,#eef9ff);box-shadow:0 .6vh 0 rgba(0,0,0,.08);z-index:1}
+.fruitWin::after{content:"";position:absolute;left:12%;top:18%;width:28%;height:28%;border-radius:50%;background:#ffd23f;box-shadow:0 0 3vh #ffd23f}
+.fruitTable{position:absolute;left:0;right:0;bottom:0;height:42%;background:#e8c48a;z-index:1}
+.fruitCloth{position:absolute;left:0;right:0;bottom:28%;height:8vh;background:repeating-linear-gradient(90deg,#ff8fb8 0 4vw,#fff 4vw 8vw);opacity:.8;z-index:2}
+#fruitCV{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:min(86vh,55vw);width:calc(min(86vh,55vw) * .72);z-index:4;touch-action:none}
+#fruitHud{position:absolute;right:max(1.2vh,env(safe-area-inset-right));top:max(1.2vh,env(safe-area-inset-top));z-index:8;display:none;flex-direction:column;align-items:flex-end;gap:1vh;pointer-events:none}
+#fruit.grown #fruitHud{display:flex}
+#fruitScoreWrap,#fruitNextWrap{background:rgba(255,255,255,.92);border-radius:2.4vh;padding:1vh 1.6vh;box-shadow:0 .6vh 0 rgba(0,0,0,.1);color:#5b3a78;font-weight:800;text-align:center;min-width:min(16vh,14vw)}
+#fruitScoreWrap span{display:block;line-height:1.1}
+#fruitScoreLab,#fruitBestLab{font-size:1.8vh;opacity:.7}
+#fruitScore,#fruitBest{font-size:3.2vh}
+#fruitNextWrap{padding:.6vh 1vh}
+#fruitNextWrap span{font-size:1.8vh;opacity:.7}
+#fruitNext{width:min(10vh,9vw);height:min(10vh,9vw);display:block}
+#fruitMode{position:absolute;left:max(1.2vh,env(safe-area-inset-left));top:calc(max(1.2vh,env(safe-area-inset-top)) + min(16vh,13vw));z-index:8;background:#fff;color:#5b3a78;font-weight:800;font-size:2.2vh;border-radius:2vh;padding:1vh 1.6vh;box-shadow:0 .6vh 0 rgba(0,0,0,.12);cursor:pointer;min-height:6vh;display:flex;align-items:center}
+#fruitMode.grown{background:#ffe0a8}
+#fruitCombo{position:absolute;left:50%;top:10vh;transform:translateX(-50%) scale(.8);z-index:9;font-weight:800;font-size:5vh;color:#ff6fae;text-shadow:0 .4vh 0 #fff;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+#fruitCombo.on{opacity:1;transform:translateX(-50%) scale(1)}
+#fruit.pour #fruitCV{animation:jartilt 1.2s ease}
+@keyframes jartilt{0%{transform:translate(-50%,-50%) rotate(0)}30%{transform:translate(-50%,-50%) rotate(16deg)}70%{transform:translate(-50%,-50%) rotate(-12deg)}100%{transform:translate(-50%,-50%) rotate(0)}}
+#fruitOver{position:absolute;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(80,50,90,.35)}
+#fruitOver.on{display:flex}
+#fruitOver .fcard{background:#fffaf0;border-radius:4vh;padding:3.5vh 4vw;box-shadow:0 1.4vh 0 rgba(0,0,0,.14);text-align:center;color:#5b3a78;min-width:min(60vw,520px)}
+#fruitOver h2{margin:0 0 1vh;font-size:4.4vh}
+#fruitOver p{margin:1vh 0;font-size:3vh}
+.fruitBtn{font:inherit;font-weight:800;border:0;border-radius:2.4vh;padding:1.4vh 3vh;margin:1vh .8vh 0;background:#ffd23f;color:#5b3a78;cursor:pointer;min-height:7vh;font-size:2.6vh}
+.fruitBtn.alt{background:#e8e2ff}
+#fruit.warn #fruitCV{filter:drop-shadow(0 0 2vh rgba(255,60,60,.45))}
 /* ---------- fx ---------- */
 .flystar{position:fixed;z-index:60;width:9vh;height:9vh;margin:-4.5vh 0 0 -4.5vh;pointer-events:none;transition:transform .75s cubic-bezier(.5,-0.4,.6,1),opacity .2s .7s}
 .spark{position:fixed;z-index:55;width:3vh;height:3vh;margin:-1.5vh;border-radius:50%;pointer-events:none;animation:spark .6s ease-out forwards}
@@ -461,6 +491,7 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 <section id="feed" class="screen"><div id="feedScene"></div><div id="feedAnimals"></div><div id="feedTray"></div><div id="yum" class="padable" role="button" aria-label="Yum"></div></section>
 <!-- ================= BLUEBIRD'S WEATHER ================= -->
 <section id="weather" class="screen"><div id="wxScene"></div><div id="wxFX"></div><div id="bluebird" class="padable" role="button" aria-label="Bluebird"></div><div id="wxEverett" class="padable" role="button" aria-label="Everett"></div><div id="wxBtns"></div></section>
+<section id="fruit" class="screen toddler"><div id="fruitScene"></div><canvas id="fruitCV"></canvas><div id="fruitHud"><div id="fruitScoreWrap"><span id="fruitScoreLab">Score</span><span id="fruitScore">0</span><span id="fruitBestLab">Best</span><span id="fruitBest">0</span></div><div id="fruitNextWrap"><span>Next</span><canvas id="fruitNext"></canvas></div></div><div id="fruitMode" class="padable" role="button" aria-label="Toddler mode">Toddler</div><div id="fruitCombo"></div><div id="fruitOver"><div class="fcard"><h2>Jar is full!</h2><p>Score <span id="fruitOverScore">0</span> · Best <span id="fruitOverBest">0</span></p><button class="fruitBtn" id="fruitAgain">Play again</button><button class="fruitBtn alt" id="fruitToddler">Toddler mode</button></div></div></section>
 <!-- shared -->
 <div id="hud"><div class="pill" id="starPill"><svg viewBox="0 0 100 100"><path id="starShape" d="M50 6 L62 37 L95 38 L69 58 L78 91 L50 72 L22 91 L31 58 L5 38 L38 37Z" fill="#ffd23f" stroke="#f0a020" stroke-width="5" stroke-linejoin="round"/></svg><span id="starN">0</span></div><div class="pill" id="jarPill"><svg viewBox="0 0 100 100"><rect x="26" y="8" width="48" height="12" rx="5" fill="#c79a6a"/><path d="M24 22 H76 Q86 30 84 50 V80 Q84 94 70 94 H30 Q16 94 16 80 V50 Q14 30 24 22Z" fill="#e6f7ff" stroke="#9fd4ef" stroke-width="5"/><clipPath id="jarClip"><path d="M24 22 H76 Q86 30 84 50 V80 Q84 94 70 94 H30 Q16 94 16 80 V50 Q14 30 24 22Z"/></clipPath><g clip-path="url(#jarClip)"><rect id="jarFill" x="0" y="94" width="100" height="0" fill="#ff8fb8"/><g id="jarDots"></g></g></svg><span id="jarN">0</span></div></div>
 <div id="gear" data-k="gear"><svg viewBox="0 0 100 100"><path d="M43 6h14l3 13 9 4 11-7 10 10-7 11 4 9 13 3v14l-13 3-4 9 7 11-10 10-11-7-9 4-3 13H43l-3-13-9-4-11 7-10-10 7-11-4-9-13-3V43l13-3 4-9-7-11 10-10 11 7 9-4z" fill="#8c86a8"/><circle cx="50" cy="50" r="14" fill="#fff"/></svg></div>
@@ -473,6 +504,7 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 <h2>Grown-ups</h2>
 <div class="prow"><span>Volume</span><input type="range" id="vol" min="0" max="100" step="5"></div>
 <div class="prow"><span>Narrator voice</span><button class="pb" id="narrBtn">On</button></div>
+<div class="prow"><span>Fruit Pop Jar grown-up mode</span><button class="pb" id="fruitModeBtn">Off</button></div>
 <div class="prow"><span>Reset stars and stickers</span><button class="pb warn" id="resetBtn">Reset</button></div>
 <div class="pnote">Everything stays on this device. No internet, ads, or accounts. Controller: B closes.</div>
 <div class="close" id="parentClose"></div>
@@ -778,14 +810,52 @@ function wxIcon(k){
 function weatherSticker(k,empty){if(empty)return emptySticker();return badge(WX[k][1],'<g transform="translate(18,18) scale(0.64)">'+wxIcon(k)+'</g>');}
 function bluebirdSVG(){return '<svg viewBox="0 0 200 200" aria-label="Bluebird"><ellipse cx="100" cy="120" rx="60" ry="40" fill="#4da3ff"/><circle cx="124" cy="86" r="32" fill="#4da3ff"/><path d="M148 86 L180 74 L152 104Z" fill="#ff9500"/><circle cx="118" cy="80" r="6" fill="#3d2b2b"/><circle cx="120" cy="78" r="2" fill="#fff"/><ellipse cx="70" cy="120" rx="28" ry="16" fill="#1e7cff" class="wing"/><path d="M90 154 L84 176 L102 160 L120 176 L114 154" fill="#ff9500"/><path d="M108 58 Q124 30 148 50" fill="#4da3ff"/></svg>';}
 const WX_SKIES=["#9fdcff","#7a9bb8","#c9d6ea","#bfe8d4"];
+/* ================= v0.6 Fruit Pop Jar art ================= */
+VOICES.poppy={pitch:1.62,rate:1.04,pref:["Fiona","Samantha","Karen","Google UK English Female","Zira","Tessa"]};
+GAMES.push(["fruit","Fruit Pop Jar","#ffe7c2","#ffb15a",true]);
+ICONS.fruit='<path d="M28 22 H72 Q86 28 84 48 V82 Q84 94 70 94 H30 Q16 94 16 82 V48 Q14 28 28 22Z" fill="#e8f7ff" stroke="#8ec8e8" stroke-width="4"/><rect x="36" y="12" width="28" height="12" rx="5" fill="#c79a6a"/><circle cx="40" cy="58" r="11" fill="#e23b4a"/><circle cx="58" cy="70" r="14" fill="#ff8a1a"/><circle cx="70" cy="50" r="10" fill="#ffe44a"/><ellipse cx="36" cy="50" rx="3" ry="1.6" fill="#fff" opacity=".7"/>';
+const FRUIT=[
+ ["Cherry","#e23b4a","#b81e30",.055],
+ ["Raspberry","#e85a7a","#c23054",.072],
+ ["Apricot","#ff9a4a","#e07020",.09],
+ ["Peach","#ffb3a0","#e88978",.108],
+ ["Apple","#ef3b3b","#c41f1f",.128],
+ ["Pear","#c6e05a","#7fb01e",.15],
+ ["Orange","#ff8a1a","#d86a00",.176],
+ ["Lemon","#ffe44a","#e0c000",.204],
+ ["Mango","#ffb400","#d88800",.236],
+ ["Melon","#b6e88a","#6aaa3a",.272],
+ ["Watermelon","#3ecf6e","#1ea04a",.318]
+];
+function fruitSVG(k,empty){
+ if(empty)return emptySticker();
+ const F=FRUIT[k],c=F[1],d=F[2];
+ let inner='<defs><radialGradient id="fg'+k+'" cx="38%" cy="32%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="'+c+'"/><stop offset="1" stop-color="'+d+'"/></radialGradient></defs>';
+ if(k===10)inner+='<circle cx="50" cy="54" r="30" fill="url(#fg'+k+')"/><g stroke="#2a9a48" stroke-width="4" fill="none" opacity=".7"><path d="M32 36 Q50 54 68 36"/><path d="M28 54 Q50 62 72 54"/><path d="M32 72 Q50 64 68 72"/></g>';
+ else if(k===1){inner+='<circle cx="50" cy="54" r="28" fill="url(#fg'+k+')"/>';for(let i=0;i<8;i++){const a=i*0.785,x=50+Math.cos(a)*14,y=54+Math.sin(a)*14;inner+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="8" fill="'+c+'" stroke="'+d+'" stroke-width="1" opacity=".9"/>';}inner+='<circle cx="50" cy="54" r="9" fill="'+c+'"/>';}
+ else if(k===5)inner+='<ellipse cx="50" cy="58" rx="26" ry="24" fill="url(#fg'+k+')"/><ellipse cx="50" cy="38" rx="16" ry="14" fill="url(#fg'+k+')"/>';
+ else if(k===7)inner+='<ellipse cx="50" cy="54" rx="24" ry="30" fill="url(#fg'+k+')"/>';
+ else if(k===8)inner+='<ellipse cx="52" cy="54" rx="28" ry="24" fill="url(#fg'+k+')" transform="rotate(-18 52 54)"/>';
+ else inner+='<circle cx="50" cy="54" r="30" fill="url(#fg'+k+')"/>';
+ if(k===0||k===4||k===5)inner+='<path d="M50 26 Q62 14 68 22 Q58 24 50 30Z" fill="#34c759"/><path d="M50 30 C50 18 50 14 50 10" stroke="#6a3a18" stroke-width="3" fill="none"/>';
+ if(k===3)inner+='<path d="M50 28 Q46 54 50 78" stroke="#e88978" stroke-width="2" fill="none" opacity=".45"/>';
+ if(k===6)for(let i=0;i<6;i++)inner+='<circle cx="'+(38+(i%3)*12)+'" cy="'+(48+(i>2?12:0))+'" r="1.6" fill="#e07010" opacity=".35"/>';
+ inner+='<ellipse cx="40" cy="42" rx="8" ry="4.5" fill="#fff" opacity=".55" transform="rotate(-28 40 42)"/>';
+ inner+='<circle cx="43" cy="56" r="3.2" fill="#3d2b2b"/><circle cx="57" cy="56" r="3.2" fill="#3d2b2b"/>';
+ inner+='<circle cx="44.2" cy="55" r="1.1" fill="#fff"/><circle cx="58.2" cy="55" r="1.1" fill="#fff"/>';
+ inner+='<circle cx="38" cy="62" r="3.5" fill="#ff9f7a" opacity=".55"/><circle cx="62" cy="62" r="3.5" fill="#ff9f7a" opacity=".55"/>';
+ inner+='<path d="M44 66 Q50 72 56 66" stroke="#3d2b2b" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+ return badge(c,inner);
+}
+function fruitSticker(k,empty){return fruitSVG(k,empty);}
 
 /* ================= state ================= */
 const KEY="emmysEmpire.v1",PKEY="emmysEmpire.paper";
-const DEF={v:1,stars:0,stickers:{paint:[],barn:[],hunt:[],peek:[],bubble:[],dance:[],album:[],bath:[],dress:[],beep:[],shapes:[],feed:[],weather:[]},zoo:null,lastGame:null,volume:.8,narrator:true,paintDist:0,color:4,tool:"brush"};
+const DEF={v:1,stars:0,stickers:{paint:[],barn:[],hunt:[],peek:[],bubble:[],dance:[],album:[],bath:[],dress:[],beep:[],shapes:[],feed:[],weather:[],fruit:[]},zoo:null,fruitBest:0,fruitGrown:false,lastGame:null,volume:.8,narrator:true,paintDist:0,color:4,tool:"brush"};
 let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){S=Object.assign({},DEF);}
 if(!S.stickers||typeof S.stickers!=="object")S.stickers={};
-["paint","barn","hunt","peek","bubble","dance","album","bath","dress","beep","shapes","feed","weather"].forEach(g=>{const n=g==="barn"?12:g==="album"?PHOTOS.length:8;S.stickers[g]=Array.isArray(S.stickers[g])?S.stickers[g].filter((x,i,a)=>Number.isInteger(x)&&x>=0&&x<n&&a.indexOf(x)===i):[];});
-if(typeof S.stars!=="number"||!(S.stars>=0))S.stars=0;
+["paint","barn","hunt","peek","bubble","dance","album","bath","dress","beep","shapes","feed","weather","fruit"].forEach(g=>{const n=g==="barn"?12:g==="album"?PHOTOS.length:g==="fruit"?11:8;S.stickers[g]=Array.isArray(S.stickers[g])?S.stickers[g].filter((x,i,a)=>Number.isInteger(x)&&x>=0&&x<n&&a.indexOf(x)===i):[];});
+if(typeof S.stars!=="number"||!(S.stars>=0))S.stars=0;if(typeof S.fruitBest!=="number"||!(S.fruitBest>=0))S.fruitBest=0;if(S.fruitGrown!==true)S.fruitGrown=false;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 const $=id=>document.getElementById(id);
 /* ================= audio ================= */
@@ -889,11 +959,11 @@ function openBook(page){page=SETS[page]?page:(SETS[screen]?screen:(SETS[S.lastGa
  GAME_IDS.forEach(id=>{const t=document.createElement("div");t.className="tab padable";t.dataset.page=id;t.innerHTML='<svg viewBox="0 0 100 100">'+ICONS[id]+'</svg>';t.addEventListener("pointerdown",e=>{e.preventDefault();showPage(id,true);});t._act=()=>showPage(id,true);h.appendChild(t);});
  $("bookClose").innerHTML=CHECK;$("book").classList.add("on");SFX.pop();say("Your sticker book!","home");bookFocus=null;showPage(page,false);}
 function showPage(id,speak){bookPage=id;const SET=SETS[id],g=$("bookGrid");g.innerHTML="";document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.page===id));
- const cols=SET.n===12?6:4;g.style.gridTemplateColumns="repeat("+cols+",var(--ss))";g.style.setProperty("--ss",SET.n===12?"min(16vh,11.5vw)":"min(18vh,17vw)");
+ const cols=SET.n===12?6:SET.n>8?6:4;g.style.gridTemplateColumns="repeat("+cols+",var(--ss))";g.style.setProperty("--ss",SET.n===12||SET.n>8?"min(14vh,11vw)":"min(18vh,17vw)");
  for(let k=0;k<SET.n;k++){const has=S.stickers[id].indexOf(k)>=0;const d=document.createElement("div");d.className="slot padable"+(has?"":" empty");d.innerHTML='<svg viewBox="0 0 100 100">'+SET.svg(k,!has)+'</svg>';d.addEventListener("pointerdown",e=>{e.preventDefault();bookTap(id,d,k,has);});d._act=()=>bookTap(id,d,k,has);g.appendChild(d);}
  if(speak){SFX.pop();say(GAMES.find(x=>x[0]===id)[1]+" stickers!","home");}
  if(padMode)setBookFocus(g.firstChild);}
-function bookTap(id,d,k,has){wobble(d);if(has){if(id==="barn")animalSound(k);else if(id==="peek")SFX.giggle();else if(id==="dance")SFX.fanfare();else if(id==="album")SFX.chime();else if(id==="bath")SFX.splash();else if(id==="dress")SFX.stamp();else if(id==="beep")SFX.horn();else if(id==="shapes")SFX.cheer();else if(id==="feed")SFX.munch();else if(id==="weather")SFX.chime();else SFX.pick(k);say(SETS[id].label(k)+"!",SETS[id].voice);}else{SFX.tick();say("Play more to get this one!",SETS[id].voice);}}
+function bookTap(id,d,k,has){wobble(d);if(has){if(id==="barn")animalSound(k);else if(id==="peek")SFX.giggle();else if(id==="dance")SFX.fanfare();else if(id==="album")SFX.chime();else if(id==="bath")SFX.splash();else if(id==="dress")SFX.stamp();else if(id==="beep")SFX.horn();else if(id==="shapes")SFX.cheer();else if(id==="feed")SFX.munch();else if(id==="weather")SFX.chime();else if(id==="fruit")SFX.juicy(k);else SFX.pick(k);say(SETS[id].label(k)+"!",SETS[id].voice);}else{SFX.tick();say("Play more to get this one!",SETS[id].voice);}}
 function closeBook(){$("book").classList.remove("on");SFX.pop();clearFocus();if(padMode&&screen==="home")setHomeFocus($("jarPill"),false);}
 function setBookFocus(el){clearFocus();el.classList.add("focus");bookFocus=el;}
 $("bookClose").addEventListener("pointerdown",e=>{e.preventDefault();closeBook();});$("bookClose")._act=closeBook;
@@ -903,12 +973,12 @@ function holdButton(el,ms,done){let t0=0,raf=0,active=false;const tick=()=>{if(!
  el.addEventListener("pointerdown",e=>{e.preventDefault();try{el.setPointerCapture(e.pointerId);}catch(_){}active=true;t0=performance.now();tick();});["pointerup","pointercancel","lostpointercapture"].forEach(ev=>el.addEventListener(ev,stop));}
 holdButton($("gear"),3000,openParent);
 let resetArm=0;
-function openParent(){$("vol").value=Math.round(S.volume*100);$("narrBtn").textContent=S.narrator?"On":"Off";$("resetBtn").textContent="Reset";resetArm=0;$("parentClose").innerHTML=CHECK;$("parent").classList.add("on");}
+function openParent(){$("vol").value=Math.round(S.volume*100);$("narrBtn").textContent=S.narrator?"On":"Off";$("resetBtn").textContent="Reset";resetArm=0;const fb=$("fruitModeBtn");if(fb)fb.textContent=S.fruitGrown?"On":"Off";$("parentClose").innerHTML=CHECK;$("parent").classList.add("on");}
 function closeParent(){$("parent").classList.remove("on");}
 $("vol").addEventListener("input",e=>{S.volume=e.target.value/100;if(MG)MG.gain.value=S.volume;save();});
 $("vol").addEventListener("change",()=>SFX.chime());
 $("narrBtn").addEventListener("click",()=>{S.narrator=!S.narrator;if(!S.narrator&&SS)try{SS.cancel();}catch(e){}$("narrBtn").textContent=S.narrator?"On":"Off";save();say("Hello!","home");});
-$("resetBtn").addEventListener("click",()=>{if(Date.now()-resetArm>4000){resetArm=Date.now();$("resetBtn").textContent="Tap again to reset";return;}S.stars=0;S.stickers={paint:[],barn:[],hunt:[],peek:[],bubble:[],dance:[],album:[],bath:[],dress:[],beep:[],shapes:[],feed:[],weather:[]};S.zoo=null;zooState();S.paintDist=0;save();updHud();$("resetBtn").textContent="Done";resetArm=0;});
+$("resetBtn").addEventListener("click",()=>{if(Date.now()-resetArm>4000){resetArm=Date.now();$("resetBtn").textContent="Tap again to reset";return;}S.stars=0;S.stickers={paint:[],barn:[],hunt:[],peek:[],bubble:[],dance:[],album:[],bath:[],dress:[],beep:[],shapes:[],feed:[],weather:[],fruit:[]};S.fruitBest=0;S.fruitGrown=false;S.zoo=null;zooState();S.paintDist=0;save();updHud();$("resetBtn").textContent="Done";resetArm=0;});
 $("parentClose").addEventListener("pointerdown",e=>{e.preventDefault();closeParent();});
 /* ================= paint ================= */
 const cv=$("paper"),cx=cv.getContext("2d");let DPR=1,W=0,H=0;
@@ -955,8 +1025,8 @@ function newPaper(){if(wiping)return;wiping=true;const w=$("wipe");w.classList.r
 let restored=false;
 function openGame(id){if(GAME_IDS.indexOf(id)<0&&id!=="zoo")return;S.lastGame=id;save();clearFocus();gFocus=null;show(id);
  if(id==="paint"){if(!restored){restored=true;restorePaper();}setTool(S.tool||"brush");pickColor(S.color,null,true);SFX.fanfare();say("Hi! I'm Sunny! Let's paint!","sunny");}
- else if(id==="barn")barnEnter();else if(id==="hunt")huntEnter();else if(id==="peek")peekEnter();else if(id==="bubble")bubbleEnter();else if(id==="zoo")zooEnter();else if(id==="album")albumEnter();else if(id==="dance")danceEnter();else if(id==="bath")bathEnter();else if(id==="dress")dressEnter();else if(id==="beep")beepEnter();else if(id==="shapes")shapesEnter();else if(id==="feed")feedEnter();else if(id==="weather")weatherEnter();}
-function goHome(){const was=screen;if(was==="dance"){stopTune();clearTimeout(danceT);$("lights").classList.remove("on");}if(was==="zoo"){[...drags.keys()].forEach(k=>endDrag(k,0,innerHeight,true));}[...gdrags.keys()].forEach(k=>gEnd(k,0,0,true));clearTimeout(peekT);clearTimeout(peekHintT);if(was==="bubble"){BUBS.splice(0).forEach(b=>b.el.remove());document.querySelectorAll(".reveal").forEach(x=>x.remove());}strokes.clear();if(was==="paint")savePaperSoon();clearTimeout(huntT);clearTimeout(barnSay);barnDoors.forEach(D=>{clearTimeout(D.t);D.open=false;D.el.classList.remove("open");});clearFocus();show("home");selIdx=-1;bubbles.forEach(b=>b.classList.remove("sel"));SFX.pop();rumble(lastPad,120,.3);say("Home!","home");const gi=GAMES.findIndex(g=>g[0]===was);if(gi>=0)setHomePage(Math.floor(gi/PAGE_SZ),false);if(padMode)setHomeFocus(pageBubbles()[0]||bubbles[0],false);}
+ else if(id==="barn")barnEnter();else if(id==="hunt")huntEnter();else if(id==="peek")peekEnter();else if(id==="bubble")bubbleEnter();else if(id==="zoo")zooEnter();else if(id==="album")albumEnter();else if(id==="dance")danceEnter();else if(id==="bath")bathEnter();else if(id==="dress")dressEnter();else if(id==="beep")beepEnter();else if(id==="shapes")shapesEnter();else if(id==="feed")feedEnter();else if(id==="weather")weatherEnter();else if(id==="fruit")fruitEnter();}
+function goHome(){const was=screen;if(was==="fruit")fruitLeave();if(was==="dance"){stopTune();clearTimeout(danceT);$("lights").classList.remove("on");}if(was==="zoo"){[...drags.keys()].forEach(k=>endDrag(k,0,innerHeight,true));}[...gdrags.keys()].forEach(k=>gEnd(k,0,0,true));clearTimeout(peekT);clearTimeout(peekHintT);if(was==="bubble"){BUBS.splice(0).forEach(b=>b.el.remove());document.querySelectorAll(".reveal").forEach(x=>x.remove());}strokes.clear();if(was==="paint")savePaperSoon();clearTimeout(huntT);clearTimeout(barnSay);barnDoors.forEach(D=>{clearTimeout(D.t);D.open=false;D.el.classList.remove("open");});clearFocus();show("home");selIdx=-1;bubbles.forEach(b=>b.classList.remove("sel"));SFX.pop();rumble(lastPad,120,.3);say("Home!","home");const gi=GAMES.findIndex(g=>g[0]===was);if(gi>=0)setHomePage(Math.floor(gi/PAGE_SZ),false);if(padMode)setHomeFocus(pageBubbles()[0]||bubbles[0],false);}
 /* ================= v0.2 shared game helpers ================= */
 const GAME_IDS=["paint","barn","hunt"];
 const SETS={paint:{n:8,label:k=>COLORS[k][0]+" splat",svg:(k,e)=>splatSVG(k,COLORS[k][1],e),dot:k=>COLORS[k][1],voice:"sunny"},
@@ -1381,6 +1451,222 @@ function v5api(){return {
  bathLast:()=>window.__bathLast,beepLast:()=>window.__beepLast,wx:()=>wxN
 };}
 
+/* ================= v0.6 Fruit Pop Jar ================= */
+SFX.juicy=function(n){const f=280+n*48;tone(f,0,.1,"sine",.24,f*1.45);tone(f*1.45,.08,.2,"triangle",.2,f*2.15);tone(f*2.1,.16,.16,"sine",.12,f*2.6);noise(0,.1,2200,700,.18,1.4);};
+SFX.pour=function(){noise(0,.7,900,400,.22,.8);tone(240,0,.5,"sine",.1,140);[0,.12,.24,.36].forEach((t,i)=>tone(520+i*80,t,.12,"triangle",.1));};
+GAME_IDS.push("fruit");
+SETS.fruit={n:11,label:k=>FRUIT[k][0],svg:(k,e)=>fruitSticker(k,e),dot:k=>FRUIT[k][1],voice:"poppy"};
+const FJ={items:[],held:null,next:0,dropX:.5,score:0,combo:1,comboT:0,grown:false,over:false,pouring:false,pourT:0,warnT:0,cool:0,running:false,raf:0,W:400,H:560,left:0,right:0,bot:0,top:0,line:0,dropY:0,scale:1,uid:1,lastT:0,pop:[],busy:false};
+function fruitRad(type){const base=FJ.grown?1:1.22;return Math.max(10,FRUIT[type][3]*FJ.W*base);}
+function fruitSize(){const cv=$("fruitCV");if(!cv)return;const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
+ cv.width=Math.max(2,Math.round(r.width*dpr));cv.height=Math.max(2,Math.round(r.height*dpr));
+ FJ.W=r.width;FJ.H=r.height;FJ.left=FJ.W*0.08;FJ.right=FJ.W*0.92;FJ.bot=FJ.H*0.92;FJ.top=FJ.H*0.06;FJ.line=FJ.H*0.18;FJ.dropY=FJ.H*0.10;FJ.scale=FJ.W/420;
+ const nx=$("fruitNext");if(nx){const nr=nx.getBoundingClientRect();let nw=nr.width,nh=nr.height;if(nw<8||nh<8){const cs=getComputedStyle(nx);nw=parseFloat(cs.width)||0;nh=parseFloat(cs.height)||0;}if(nw<8||nh<8){nw=Math.max(48,FJ.H*0.1);nh=nw;}nx.width=Math.max(2,Math.round(nw*dpr));nx.height=Math.max(2,Math.round(nh*dpr));fruitDrawNext();}
+}
+function fruitAdd(type,x,y,vx,vy){const f={id:FJ.uid++,type:type,x:x,y:y,vx:vx||0,vy:vy||0,r:fruitRad(type),merge:0,mx:0,my:0,pop:1,squash:0,dead:false};FJ.items.push(f);return f;}
+function fruitPickDrop(){const max=FJ.grown?4:3;return Math.random()*max|0;}
+function fruitNewHeld(){FJ.held={type:FJ.next,x:FJ.left+(FJ.right-FJ.left)*FJ.dropX};FJ.next=fruitPickDrop();}
+function fruitResetRound(keepScore){FJ.items.length=0;FJ.pop.length=0;FJ.over=false;FJ.pouring=false;FJ.pourT=0;FJ.warnT=0;FJ.cool=0;FJ.combo=1;FJ.comboT=0;FJ.busy=false;if(!keepScore)FJ.score=0;FJ.next=fruitPickDrop();FJ.dropX=.5;fruitNewHeld();$("fruitOver").classList.remove("on");fruitHud();fruitDraw();}
+function fruitSetMode(grown,speak){FJ.grown=!!grown;S.fruitGrown=FJ.grown;save();fruitApplyUI();fruitResetRound(false);
+ if(speak){SFX.chime();say(FJ.grown?"Grown-up mode! Don't let the fruit go over the line!":"Toddler mode! Keep popping fruit!","poppy");}
+}
+function fruitApplyUI(){const g=FJ.grown;$("fruit").classList.toggle("grown",g);$("fruit").classList.toggle("toddler",!g);
+ const mb=$("fruitMode");if(mb){mb.setAttribute("aria-label",g?"Grown-up mode":"Toddler mode");mb.classList.toggle("grown",g);mb.innerHTML=g?"Grown-up":"Toddler";}
+ const fb=$("fruitModeBtn");if(fb)fb.textContent=g?"On":"Off";
+ fruitHud();if(FJ.W)fruitSize();
+}
+function fruitHud(){const sc=$("fruitScore"),be=$("fruitBest"),cb=$("fruitCombo");
+ if(sc)sc.textContent=FJ.score;if(be)be.textContent=S.fruitBest||0;
+ if(cb){if(FJ.grown&&FJ.combo>1&&performance.now()<FJ.comboT){cb.textContent=FJ.combo+"x combo!";cb.classList.add("on");}else cb.classList.remove("on");}
+}
+function fruitEnter(){FJ.grown=S.fruitGrown===true;fruitApplyUI();fruitSize();fruitResetRound(false);
+ if(FJ.grown){const be=S.fruitBest||0;say("Grown-up mode! Best score "+be+". Don't go over the line!","poppy");}
+ else say("Pop! Drop the fruit! Same ones make a bigger one!","poppy");
+ SFX.fanfare();FJ.running=true;FJ.lastT=performance.now();cancelAnimationFrame(FJ.raf);FJ.raf=requestAnimationFrame(fruitLoop);
+}
+function fruitLeave(){FJ.running=false;cancelAnimationFrame(FJ.raf);FJ.raf=0;FJ.items.length=0;FJ.held=null;$("fruitOver").classList.remove("on");}
+function fruitLoop(t){if(!FJ.running||screen!=="fruit")return;const dt=Math.min(.033,(t-FJ.lastT)/1000)||.016;FJ.lastT=t;fruitStep(dt);FJ.raf=requestAnimationFrame(fruitLoop);}
+function fruitStep(dt){
+ if(FJ.over){fruitDraw();return;}
+ if(FJ.cool>0)FJ.cool-=dt;
+ if(FJ.pouring){fruitStepPour(dt);fruitDraw();return;}
+ const sub=dt>0.02?3:2,h=dt/sub,g=1600*FJ.scale;
+ for(let s=0;s<sub;s++){
+  for(const f of FJ.items){if(f.dead||f.merge>0||f.pin)continue;f.vy+=g*h;f.vx*=(1-1.15*h);f.vy*=(1-0.08*h);f.x+=f.vx*h;f.y+=f.vy*h;}
+  fruitWalls();
+  for(let k=0;k<6;k++)fruitPairs();
+  fruitMerges();
+  fruitTickMerge(h);
+ }
+ for(const f of FJ.items){if(f.pop<1){f.pop=Math.min(1,f.pop+dt*6);}if(f.squash>0)f.squash=Math.max(0,f.squash-dt*5);}
+ FJ.items=FJ.items.filter(f=>!f.dead);
+ fruitTickPop(dt);
+ if(FJ.grown)fruitTickDanger(dt);else fruitTickFill(dt);
+ fruitHud();fruitDraw();
+}
+function fruitWalls(){for(const f of FJ.items){if(f.dead||f.merge>0||f.pin)continue;
+  if(f.x-f.r<FJ.left){f.x=FJ.left+f.r;f.vx=Math.abs(f.vx)*0.15;}
+  if(f.x+f.r>FJ.right){f.x=FJ.right-f.r;f.vx=-Math.abs(f.vx)*0.15;}
+  if(f.y+f.r>FJ.bot){f.y=FJ.bot-f.r;if(f.vy>0){f.squash=Math.min(.25,f.vy/800);f.vy=-f.vy*0.18;}if(Math.abs(f.vy)<18)f.vy=0;f.vx*=0.72;}
+  if(f.y-f.r<FJ.top){/* open top */ if(f.y<f.r*0.2){f.y=f.r*0.2;if(f.vy<0)f.vy=0;}}
+ }}
+function fruitPairs(){const a=FJ.items,n=a.length;
+ for(let i=0;i<n;i++){const A=a[i];if(A.dead||A.merge>0)continue;
+  for(let j=i+1;j<n;j++){const B=a[j];if(B.dead||B.merge>0)continue;
+   let dx=B.x-A.x,dy=B.y-A.y,d=Math.hypot(dx,dy)||0.0001,min=A.r+B.r;
+   if(d>=min)continue;
+   const nx=dx/d,ny=dy/d,ov=min-d,m1=A.r*A.r,m2=B.r*B.r,tm=m1+m2;
+   A.x-=nx*ov*(m2/tm);A.y-=ny*ov*(m2/tm);B.x+=nx*ov*(m1/tm);B.y+=ny*ov*(m1/tm);
+   const rv=(B.vx-A.vx)*nx+(B.vy-A.vy)*ny;
+   if(rv<0){const e=0.18,jimp=-(1+e)*rv/(1/m1+1/m2);A.vx-=jimp/m1*nx;A.vy-=jimp/m1*ny;B.vx+=jimp/m2*nx;B.vy+=jimp/m2*ny;}
+   const tx=-ny,ty=nx,tv=(B.vx-A.vx)*tx+(B.vy-A.vy)*ty,fr=0.25;
+   if(Math.abs(tv)>0){const jfr=tv*fr/(1/m1+1/m2);A.vx+=jfr/m1*tx;A.vy+=jfr/m1*ty;B.vx-=jfr/m2*tx;B.vy-=jfr/m2*ty;}
+  }
+ }}
+function fruitMerges(){if(FJ.busy)return;const a=FJ.items,n=a.length,slop=FJ.grown?2*FJ.scale:8*FJ.scale;
+ for(let i=0;i<n;i++){const A=a[i];if(A.dead||A.merge>0)continue;
+  for(let j=i+1;j<n;j++){const B=a[j];if(B.dead||B.merge>0)continue;
+   if(A.type!==B.type||A.type>=FRUIT.length-1)continue;
+   const d=Math.hypot(B.x-A.x,B.y-A.y);
+   if(d<=A.r+B.r+slop){fruitBeginMerge(A,B);return;}
+  }
+ }}
+function fruitBeginMerge(A,B){FJ.busy=true;const mx=(A.x+B.x)/2,my=(A.y+B.y)/2,nt=A.type+1;
+ A.merge=B.merge=1;A.mx=B.mx=mx;A.my=B.my=my;A._nt=B._nt=nt;A._p=B;B._p=A;
+}
+function fruitTickMerge(h){let done=null;
+ for(const f of FJ.items){if(f.merge<=0||f.dead)continue;f.merge+=h*5.8;f.x+=(f.mx-f.x)*0.22;f.y+=(f.my-f.y)*0.22;f.r*=0.985;if(f.merge>=1&&!done)done=f;}
+ if(!done)return;
+ const A=done,B=A._p,nt=A._nt,mx=A.mx,my=A.my,vx=((A.vx||0)+(B.vx||0))*0.25,vy=Math.min(0,((A.vy||0)+(B.vy||0))*0.2);
+ A.dead=true;if(B)B.dead=true;FJ.busy=false;
+ const nf=fruitAdd(nt,mx,my,vx,vy);nf.pop=0.35;nf.squash=0.28;
+ fruitJuice(mx,my,nt);
+ if(FJ.grown){const now=performance.now();if(now<FJ.comboT)FJ.combo++;else FJ.combo=1;FJ.comboT=now+900;const pts=(nt+1)*10*FJ.combo;FJ.score+=pts;if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}
+  if(nt>=3){lastPrefer.fruit=nt;gameStarCool(null,nt,600);}
+ }
+ else if(nt>=3){lastPrefer.fruit=nt;gameStarCool(null,nt,900);}
+ if(nt===FRUIT.length-1){lastPrefer.fruit=nt;awardSticker("fruit");}
+ window.__fruitMerges=(window.__fruitMerges||0)+1;window.__fruitLastMerge=nt;
+}
+function fruitJuice(x,y,nt){const F=FRUIT[nt],cv=$("fruitCV").getBoundingClientRect();
+ const px=cv.left+x,py=cv.top+y;burst(px,py,[F[1],F[2],"#fff",FRUIT[Math.max(0,nt-1)][1]]);
+ SFX.juicy(nt);rumble(lastPad,140,.45);say(F[0]+"!","poppy");window.__lastSfx="juicy";
+ for(let k=0;k<10;k++){const a=k/10*6.28;FJ.pop.push({x:x,y:y,vx:Math.cos(a)*(80+nt*8)*FJ.scale,vy:Math.sin(a)*(80+nt*8)*FJ.scale,life:1,col:k%2?F[1]:F[2],s:6+nt});}
+}
+function fruitTickPop(dt){for(const p of FJ.pop){p.life-=dt*1.8;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=400*dt;}FJ.pop=FJ.pop.filter(p=>p.life>0);}
+function fruitTickDanger(dt){if(!FJ.grown||FJ.over||FJ.pouring)return;let danger=false;
+ for(const f of FJ.items){if(f.dead||f.merge>0)continue;if(f.y-f.r*0.15<FJ.line && Math.abs(f.vy)<80 && Math.abs(f.vx)<80)danger=true;}
+ if(danger){FJ.warnT+=dt;if(FJ.warnT>=2)fruitGameOver();}else FJ.warnT=Math.max(0,FJ.warnT-dt*2);
+ $("fruit").classList.toggle("warn",FJ.warnT>0.4);
+}
+function fruitTickFill(dt){if(FJ.grown||FJ.pouring||FJ.over)return;let high=false;
+ for(const f of FJ.items){if(f.dead||f.merge>0)continue;if(f.y-f.r<FJ.line+FJ.H*0.04 && Math.abs(f.vy)<60)high=true;}
+ if(FJ.items.length>18)high=true;
+ if(high){FJ.warnT+=dt;if(FJ.warnT>=0.9)fruitStartPour();}else FJ.warnT=Math.max(0,FJ.warnT-dt);
+}
+function fruitStartPour(){if(FJ.pouring)return;FJ.pouring=true;FJ.pourT=0;FJ.held=null;$("fruit").classList.add("pour");
+ for(const f of FJ.items){f.vx+=(f.x-(FJ.left+FJ.right)/2)*1.2+ (Math.random()-.5)*220*FJ.scale;f.vy-=(220+Math.random()*180)*FJ.scale;}
+ SFX.pour();SFX.cheer();rumble(lastPad,280,.55);say("All gone! More fruit!","poppy");window.__lastSfx="pour";window.__fruitPours=(window.__fruitPours||0)+1;
+ lastPrefer.fruit=Math.max(0,...FJ.items.map(f=>f.type));awardSticker("fruit");
+}
+function fruitStepPour(dt){FJ.pourT+=dt;const g=1800*FJ.scale;
+ for(const f of FJ.items){if(f.dead)continue;f.vy+=g*dt;f.x+=f.vx*dt;f.y+=f.vy*dt;}
+ if(FJ.pourT>1.25){FJ.items.length=0;FJ.pop.length=0;FJ.pouring=false;FJ.warnT=0;$("fruit").classList.remove("pour");
+  fruitNewHeld();
+  const mid=(FJ.left+FJ.right)/2;fruitAdd(0,mid-FJ.W*0.12,FJ.bot-fruitRad(0),0,0);fruitAdd(1,mid+FJ.W*0.1,FJ.bot-fruitRad(1),0,0);
+  SFX.chime();say("Again!","poppy");}
+}
+function fruitGameOver(){if(FJ.over)return;FJ.over=true;FJ.held=null;window.__fruitOvers=(window.__fruitOvers||0)+1;window.__lastSfx="over";
+ if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}
+ $("fruitOverScore").textContent=FJ.score;$("fruitOverBest").textContent=S.fruitBest||0;
+ $("fruitOver").classList.add("on");SFX.pour();say("Oh no! The jar is too full! Your score is "+FJ.score+". Best is "+(S.fruitBest||0)+".","poppy");rumble(lastPad,400,.7);
+}
+function fruitDropAt(xCss){if(FJ.over||FJ.pouring||!FJ.held||FJ.cool>0)return false;
+ const cv=$("fruitCV").getBoundingClientRect();let x=xCss-cv.left;if(!isFinite(x))x=FJ.left+(FJ.right-FJ.left)*FJ.dropX;
+ const r=fruitRad(FJ.held.type);x=Math.max(FJ.left+r,Math.min(FJ.right-r,x));
+ if(FJ.grown){for(const f of FJ.items){if(f.dead)continue;if(f.y-f.r<FJ.dropY+r*1.5 && Math.abs(f.x-x)<f.r+r*0.8)return false;}}
+ FJ.dropX=(x-FJ.left)/(FJ.right-FJ.left);const f=fruitAdd(FJ.held.type,x,FJ.dropY,0,40*FJ.scale);f.pop=0.7;FJ.held=null;FJ.cool=FJ.grown?0.35:0.16;fruitNewHeld();SFX.pop();window.__fruitDrops=(window.__fruitDrops||0)+1;return true;
+}
+function fruitPointer(e){if(e.target.closest&&e.target.closest(".castleBtn,#fruitMode,#fruitOver,.fruitBtn,#hud,#gear,#book,#parent"))return;
+ const cv=$("fruitCV").getBoundingClientRect();const x=e.clientX-cv.left,r=FJ.held?fruitRad(FJ.held.type):fruitRad(0);
+ const nx=Math.max(FJ.left+r,Math.min(FJ.right-r,x));FJ.dropX=(nx-FJ.left)/(FJ.right-FJ.left);if(FJ.held)FJ.held.x=nx;
+}
+function fruitOnDown(e){if(screen!=="fruit")return;if(e.target.closest&&e.target.closest(".castleBtn,#fruitMode,#fruitOver,.fruitBtn,#hud,#gear"))return;
+ e.preventDefault();fruitPointer(e);if(!FJ.grown)fruitDropAt(e.clientX);}
+function fruitOnMove(e){if(screen!=="fruit")return;if(!(e.buttons||e.pressure>0||e.pointerType==="touch")){if(FJ.grown)fruitPointer(e);return;}fruitPointer(e);}
+function fruitOnUp(e){if(screen!=="fruit")return;if(e.target.closest&&e.target.closest(".castleBtn,#fruitMode,#fruitOver,.fruitBtn,#hud,#gear"))return;
+ fruitPointer(e);if(FJ.grown)fruitDropAt(e.clientX);}
+function fruitDrawNext(){const nx=$("fruitNext");if(!nx)return;const dpr=Math.min(2,devicePixelRatio||1),c=nx.getContext("2d"),w=nx.width/dpr,h=nx.height/dpr;
+ c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);if(!FJ.grown)return;const r=Math.min(w,h)*0.38;fruitPaint(c,w/2,h/2,FJ.next,r,1,0);}
+function fruitDraw(){const cv=$("fruitCV");if(!cv)return;const dpr=Math.min(2,devicePixelRatio||1),c=cv.getContext("2d");
+ c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,FJ.W,FJ.H);
+ /* jar glass */
+ const x=FJ.left-6,y=FJ.top-4,w=FJ.right-FJ.left+12,h=FJ.bot-FJ.top+16,rr=22;
+ c.save();c.beginPath();roundJar(c,x,y,w,h,rr);c.fillStyle="rgba(255,255,255,.28)";c.fill();
+ c.save();c.clip();
+ /* table shadow inside */
+ c.fillStyle="rgba(180,120,60,.06)";c.fillRect(x,FJ.bot-10,w,20);
+ if(FJ.grown){c.strokeStyle=FJ.warnT>0.4?"#ff4d4d":"rgba(255,80,80,.7)";c.lineWidth=3;c.setLineDash([10,8]);c.beginPath();c.moveTo(FJ.left,FJ.line);c.lineTo(FJ.right,FJ.line);c.stroke();c.setLineDash([]);
+  if(FJ.warnT>0.4){c.fillStyle="rgba(255,60,60,"+(0.08+Math.sin(performance.now()/120)*0.05)+")";c.fillRect(FJ.left,FJ.top,FJ.right-FJ.left,FJ.line-FJ.top);}
+ }
+ for(const p of FJ.pop){c.globalAlpha=Math.max(0,p.life);c.fillStyle=p.col;c.beginPath();c.arc(p.x,p.y,p.s*p.life*FJ.scale,0,6.28);c.fill();}
+ c.globalAlpha=1;
+ const list=FJ.items.slice().sort((a,b)=>a.y-b.y);
+ for(const f of list){if(f.dead)continue;const pop=f.pop<1?0.6+f.pop*0.4:1,sq=f.squash,sx=1+sq,sy=1-sq*0.8;fruitPaint(c,f.x,f.y,f.type,f.r*pop,sx,sy);}
+ if(FJ.held&&!FJ.over&&!FJ.pouring){const r=fruitRad(FJ.held.type),x=FJ.held.x;c.strokeStyle="rgba(80,50,40,.18)";c.lineWidth=2;c.setLineDash([6,6]);c.beginPath();c.moveTo(x,FJ.dropY+r);c.lineTo(x,FJ.bot-4);c.stroke();c.setLineDash([]);fruitPaint(c,x,FJ.dropY,FJ.held.type,r,1,0);}
+ c.restore();
+ /* jar outline + shine */
+ c.beginPath();roundJar(c,x,y,w,h,rr);c.strokeStyle="rgba(120,170,200,.85)";c.lineWidth=5;c.stroke();
+ c.beginPath();roundJar(c,x+5,y+5,w-10,h-10,18);c.strokeStyle="rgba(255,255,255,.45)";c.lineWidth=2;c.stroke();
+ c.fillStyle="rgba(255,255,255,.18)";c.beginPath();c.ellipse(x+w*0.22,y+h*0.35,w*0.08,h*0.28,0,0,6.28);c.fill();
+ /* lid */
+ const lx=x+w*0.22,lw=w*0.56;c.fillStyle="#c79a6a";c.strokeStyle="#9a7048";c.lineWidth=2;c.beginPath();roundRect(c,lx,y-16,lw,20,8);c.fill();c.stroke();
+ c.restore();
+ fruitDrawNext();
+}
+function roundJar(c,x,y,w,h,r){c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);c.lineTo(x+w,y+h-r);c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);c.quadraticCurveTo(x,y,x+r,y);}
+function roundRect(c,x,y,w,h,r){c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function fruitPaint(c,x,y,type,r,sx,sy){const F=FRUIT[type];c.save();c.translate(x,y);c.scale(sx||1,sy||1);
+ c.beginPath();c.ellipse(3,r*0.55,r*0.7,r*0.28,0,0,6.28);c.fillStyle="rgba(0,0,0,.12)";c.fill();
+ c.beginPath();
+ if(type===5){c.ellipse(0,r*0.12,r*0.86,r*0.9,0,0,6.28);}else if(type===7){c.ellipse(0,0,r*0.82,r,0,0,6.28);}else if(type===8){c.rotate(-.2);c.ellipse(0,0,r*1.05,r*0.86,0,0,6.28);c.rotate(.2);}
+ else c.arc(0,0,r,0,6.28);
+ const g=c.createRadialGradient(-r*0.35,-r*0.4,r*0.1,0,0,r);g.addColorStop(0,"#fff");g.addColorStop(0.18,F[1]);g.addColorStop(1,F[2]);c.fillStyle=g;c.fill();
+ if(type===10){c.strokeStyle="rgba(30,120,50,.55)";c.lineWidth=Math.max(2,r*0.12);c.beginPath();c.quadraticCurveTo(-r*.4,-r*.4,0,0);c.stroke();c.beginPath();c.moveTo(-r*.55,r*.1);c.quadraticCurveTo(0,r*.2,r*.55,r*.1);c.stroke();c.beginPath();c.moveTo(-r*.4,r*.45);c.quadraticCurveTo(0,r*.3,r*.4,r*.45);c.stroke();}
+ if(type===1){c.fillStyle=F[1];for(let i=0;i<7;i++){const a=i*0.9,dx=Math.cos(a)*r*0.45,dy=Math.sin(a)*r*0.45;c.beginPath();c.arc(dx,dy,r*0.28,0,6.28);c.fill();}}
+ if(type===3){c.strokeStyle="rgba(200,100,90,.4)";c.lineWidth=Math.max(1,r*0.06);c.beginPath();c.moveTo(0,-r*.7);c.quadraticCurveTo(-r*.12,0,0,r*.75);c.stroke();}
+ if(type===6){c.fillStyle="rgba(200,80,0,.25)";for(let i=0;i<8;i++){c.beginPath();c.arc((i%4-1.5)*r*.3,(i>3?1:-1)*r*.25,Math.max(1,r*.04),0,6.28);c.fill();}}
+ if(type===0||type===4||type===5){c.strokeStyle="#6a3a18";c.lineWidth=Math.max(2,r*0.1);c.beginPath();c.moveTo(0,-r*.85);c.lineTo(0,-r*1.15);c.stroke();c.fillStyle="#34c759";c.beginPath();c.ellipse(r*.28,-r*1.05,r*.32,r*.16,0.5,0,6.28);c.fill();}
+ /* shine + face */
+ c.fillStyle="rgba(255,255,255,.55)";c.beginPath();c.ellipse(-r*0.32,-r*0.35,r*0.28,r*0.16,-0.5,0,6.28);c.fill();
+ const er=Math.max(1.6,r*0.11);c.fillStyle="#3d2b2b";c.beginPath();c.arc(-r*0.22,r*0.02,er,0,6.28);c.arc(r*0.22,r*0.02,er,0,6.28);c.fill();
+ c.fillStyle="#fff";c.beginPath();c.arc(-r*0.18,-r*0.02,er*0.35,0,6.28);c.arc(r*0.26,-r*0.02,er*0.35,0,6.28);c.fill();
+ c.fillStyle="rgba(255,140,120,.5)";c.beginPath();c.arc(-r*0.42,r*0.22,er*0.9,0,6.28);c.arc(r*0.42,r*0.22,er*0.9,0,6.28);c.fill();
+ c.strokeStyle="#3d2b2b";c.lineWidth=Math.max(1.4,r*0.07);c.lineCap="round";c.beginPath();c.moveTo(-r*0.18,r*0.32);c.quadraticCurveTo(0,r*0.5,r*0.18,r*0.32);c.stroke();
+ c.restore();
+}
+function padFruit(p,k,now,edge,dt){if(FJ.over){if(edge(0)||edge(9)){fruitResetRound(false);SFX.fanfare();say("Try again!","poppy");}if(edge(1))goHome();return;}
+ const ax=p.axes||[];let x=ax[0]||0;if(Math.abs(x)<.18)x=0;else x=Math.sign(x)*(Math.abs(x)-.18)/.82;
+ if(btn(p,14))x=-1;if(btn(p,15))x=1;
+ if(FJ.held){const sp=(FJ.right-FJ.left)*0.85;FJ.held.x=Math.max(FJ.left+fruitRad(FJ.held.type),Math.min(FJ.right-fruitRad(FJ.held.type),FJ.held.x+x*sp*dt));FJ.dropX=(FJ.held.x-FJ.left)/(FJ.right-FJ.left);}
+ if(edge(0)){const cx=$("fruitCV").getBoundingClientRect();fruitDropAt((FJ.held?FJ.held.x:FJ.left+(FJ.right-FJ.left)*FJ.dropX)+cx.left);}
+ if(edge(1))goHome();
+}
+function fruitTestMerge(type){type=Math.max(0,Math.min(FRUIT.length-2,type|0));const mid=(FJ.left+FJ.right)/2,y=FJ.bot-fruitRad(type)-4,g=fruitRad(type)*0.7;fruitAdd(type,mid-g,y,20,0);fruitAdd(type,mid+g,y,-20,0);}
+function fruitForceFill(){if(FJ.grown)return;fruitStartPour();}
+function fruitForceOver(){if(!FJ.grown){fruitSetMode(true,false);}const mid=(FJ.left+FJ.right)/2;const f=fruitAdd(4,mid,FJ.line-4,0,0);f.vy=0;f.vx=0;FJ.warnT=2;fruitGameOver();}
+function fruitPlantDanger(){if(!FJ.grown)fruitSetMode(true,false);FJ.items.length=0;FJ.pop.length=0;FJ.over=false;FJ.pouring=false;FJ.warnT=0;FJ.held=null;$("fruitOver").classList.remove("on");$("fruit").classList.remove("warn");const f=fruitAdd(4,(FJ.left+FJ.right)/2,FJ.line-8,0,0);f.pin=true;f.vy=0;f.vx=0;}
+(function buildFruit(){
+ $("fruitScene").innerHTML='<div class="fruitSky"></div><div class="fruitWin"></div><div class="fruitTable"></div><div class="fruitCloth"></div>';
+ makeCastle("fruit");
+ const mode=$("fruitMode");holdButton(mode,1000,()=>{fruitSetMode(!FJ.grown,true);});
+ $("fruitAgain").addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();fruitResetRound(false);SFX.fanfare();say("Try again!","poppy");});
+ $("fruitToddler").addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();fruitSetMode(false,true);});
+ const sc=$("fruit");sc.addEventListener("pointerdown",fruitOnDown);sc.addEventListener("pointermove",fruitOnMove);sc.addEventListener("pointerup",fruitOnUp);
+ const fb=$("fruitModeBtn");if(fb)fb.addEventListener("click",()=>{fruitSetMode(!S.fruitGrown,screen==="fruit");if(screen!=="fruit"){SFX.pop();say(S.fruitGrown?"Grown-up mode is on.":"Toddler mode is on.","poppy");}});
+ window.addEventListener("resize",()=>{if(screen==="fruit")fruitSize();});
+})();
+
 /* ================= gamepad ================= */
 const prev={},curs={};let repT={},lastT=performance.now();
 function hideCursors(){for(let k=0;k<4;k++)$("cur"+k).classList.remove("show");}
@@ -1405,6 +1691,7 @@ function loop(t){const dt=Math.min(.05,(t-lastT)/1000);lastT=t;const pads=getPad
   else if(screen==="dress"||screen==="shapes"||screen==="feed")padDrag(p,k,now,edge,dt);
   else if(screen==="album")padAlbum(edge,fire);
   else if(screen==="bubble")padBubble(p,k,now,edge,dt);
+  else if(screen==="fruit")padFruit(p,k,now,edge,dt);
   pr.b=now;});
  requestAnimationFrame(loop);}
 function padPaint(p,k,now,edge,dt){const c=curs[k]||(curs[k]={x:W/2+k*40,y:H/2,shown:false,painting:false});const el=$("cur"+(k%4));const ax=p.axes||[];let x=ax[0]||0,y=ax[1]||0;const m=Math.hypot(x,y);
@@ -1428,9 +1715,9 @@ window.addEventListener("keydown",e=>{if(screen!=="home"||anyOverlay())return;co
 /* ================= misc ================= */
 ["gesturestart","gesturechange","dblclick","contextmenu"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 document.addEventListener("touchmove",e=>{if(!e.target.closest||!e.target.closest("input"))e.preventDefault();},{passive:false});
-window.addEventListener("resize",()=>{if(screen==="paint")sizePaper();});
+window.addEventListener("resize",()=>{if(screen==="paint")sizePaper();if(screen==="fruit")fruitSize();});
 document.addEventListener("visibilitychange",()=>{if(document.hidden){try{SS&&SS.cancel();}catch(e){}save();}});
-window.__ee={get state(){return S;},get screen(){return screen;},openGame,goHome,earnStar,newPaper,pickColor,openBook,showPage,animals:ANIMALS.map(a=>[a[0],a[1],a[2]]),tapDoor,closeDoor,doors:()=>barnDoors.map(d=>({a:d.a,open:d.open})),setDoorAnimal:(i,k)=>{const D=barnDoors[i];D.a=k;D.el.querySelector(".ani").innerHTML=ANIMALS[k][4];},animalSound,huntRound,peekRound,tapSpot,spawnBubble,popBubble,bubbles:()=>BUBS.map(b=>({id:b.id,kind:b.kind,val:b.val,x:b.x,y:b.y,s:b.s})),evVars:EV_VARS.map(v=>v[0]),bubItems:BUB_ITEMS.map(b=>b[0]),doDance,setScene,clearScene,perPage,tuneOn:()=>!!danceTune,setCur:(k,x,y)=>{curs[k]=curs[k]||{};curs[k].x=x;curs[k].y=y;},zoo:()=>JSON.parse(JSON.stringify(zooState())),dances:DANCES.map(d=>d[0]),albumGo,albumTap,photos:PHOTOS.map(p=>p.id),soundCheck,unlockAudio,peekPhotoReveal,acState:()=>AC?AC.state:"none",acSuspend:()=>AC&&AC.suspend(),tapBath,tapBeep,setWeather,clearDress,placeWorn,setHomePage,homePage:()=>homePage,worn:()=>Object.assign({},wornSlots),dressDrop:(k,x,y)=>dressDrop({k},x,y),shapeDrop:(kind,x,y)=>shapeDrop({kind,col:kind,i:kind},x,y),foodDrop:(k,x,y)=>foodDrop({k},x,y),shapeBoard:()=>[...document.querySelectorAll("#shapeBoard .hole")].map(h=>h.getBoundingClientRect()),feedAnimals:()=>[...document.querySelectorAll("#feedAnimals .feeder")].map(h=>h.getBoundingClientRect()),dressBox:()=>{const r=$("dressEmmy").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},wx:()=>window.__weather};
+window.__ee={get state(){return S;},get screen(){return screen;},openGame,goHome,earnStar,newPaper,pickColor,openBook,showPage,animals:ANIMALS.map(a=>[a[0],a[1],a[2]]),tapDoor,closeDoor,doors:()=>barnDoors.map(d=>({a:d.a,open:d.open})),setDoorAnimal:(i,k)=>{const D=barnDoors[i];D.a=k;D.el.querySelector(".ani").innerHTML=ANIMALS[k][4];},animalSound,huntRound,peekRound,tapSpot,spawnBubble,popBubble,bubbles:()=>BUBS.map(b=>({id:b.id,kind:b.kind,val:b.val,x:b.x,y:b.y,s:b.s})),evVars:EV_VARS.map(v=>v[0]),bubItems:BUB_ITEMS.map(b=>b[0]),doDance,setScene,clearScene,perPage,tuneOn:()=>!!danceTune,setCur:(k,x,y)=>{curs[k]=curs[k]||{};curs[k].x=x;curs[k].y=y;},zoo:()=>JSON.parse(JSON.stringify(zooState())),dances:DANCES.map(d=>d[0]),albumGo,albumTap,photos:PHOTOS.map(p=>p.id),soundCheck,unlockAudio,peekPhotoReveal,acState:()=>AC?AC.state:"none",acSuspend:()=>AC&&AC.suspend(),tapBath,tapBeep,setWeather,clearDress,placeWorn,setHomePage,homePage:()=>homePage,worn:()=>Object.assign({},wornSlots),dressDrop:(k,x,y)=>dressDrop({k},x,y),shapeDrop:(kind,x,y)=>shapeDrop({kind,col:kind,i:kind},x,y),foodDrop:(k,x,y)=>foodDrop({k},x,y),shapeBoard:()=>[...document.querySelectorAll("#shapeBoard .hole")].map(h=>h.getBoundingClientRect()),feedAnimals:()=>[...document.querySelectorAll("#feedAnimals .feeder")].map(h=>h.getBoundingClientRect()),dressBox:()=>{const r=$("dressEmmy").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},wx:()=>window.__weather,fruitMode:()=>FJ.grown?"grown":"toddler",setFruitMode:g=>fruitSetMode(!!g,false),fruitDrop:x=>fruitDropAt(x),fruitSpawn:(t,x,y)=>fruitAdd(t,x,y),fruitList:()=>FJ.items.filter(f=>!f.dead).map(f=>({id:f.id,type:f.type,x:f.x,y:f.y,r:f.r})),fruitScore:()=>FJ.score,fruitBest:()=>S.fruitBest||0,fruitOver:()=>FJ.over,fruitPour:()=>FJ.pouring,fruitNext:()=>FJ.next,fruitHeld:()=>FJ.held&&FJ.held.type,fruitMergePair:t=>fruitTestMerge(t),fruitFillToddler:()=>fruitForceFill(),fruitForceOver:()=>fruitForceOver(),fruitPlantDanger:()=>fruitPlantDanger(),fruitReset:keep=>fruitResetRound(!!keep),fruitBox:()=>{const r=$("fruitCV").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},fruitSetScore:n=>{FJ.score=+n||0;if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}fruitHud();}};
 /* ================= boot ================= */
 updHud();sizePaper();
 if(GAME_IDS.indexOf(S.lastGame)>=0||S.lastGame==="zoo"){openGame(S.lastGame);}else{show("home");}
