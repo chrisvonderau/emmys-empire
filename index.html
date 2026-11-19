@@ -375,13 +375,122 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 #rotate{position:fixed;inset:0;z-index:200;background:#bfe8ff;display:none;align-items:center;justify-content:center;flex-direction:column}
 #rotate svg{width:min(70vw,60vh)}
 #rotateMsg{margin:2vh 6vw 0;font-weight:800;font-size:min(8vw,7vh);color:#5b3a78;text-align:center;line-height:1.15}
-@media (orientation:portrait){#rotate{display:flex}}
-html.land #rotate{display:none!important}
-html.port #rotate{display:flex!important}
 #rotPhone{transform-box:fill-box;transform-origin:center;animation:rot 2.4s ease-in-out infinite}
 @keyframes rot{0%,25%{transform:rotate(0)}55%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
 #boot{position:fixed;inset:0;z-index:180;background:#bfe8ff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:min(8vw,6vh);color:#5b3a78;pointer-events:none}
 #boot.off{display:none!important}
+/* ---------- v0.7 portrait play (no rotate lock) ---------- */
+#rotate{display:none!important}
+@media (orientation:portrait){
+  /* Home: 2x4 pages, big bubbles, room for HUD / characters / sound */
+  #bubbles{top:12.5vh;width:calc(2*var(--b) + 8vw);height:calc(4*var(--b) + 6.4vh);--b:min(36vw,14.6vh)}
+  .bpage{grid-template-columns:repeat(2,var(--b));gap:1.8vh 3.2vw;align-content:center}
+  .homeArrow{top:calc(12.5vh + 2*var(--b) + 2.4vh);width:min(12vw,8vh);height:min(12vw,8vh);margin-top:calc(min(12vw,8vh)/-2)}
+  #homeDots{bottom:calc(max(1.6vh,env(safe-area-inset-bottom)) + min(13vw,11vh) + 1vh)}
+  #emmy,#everett{width:min(22vw,16vh)}
+  #soundBtn{width:min(16vw,11vh);height:min(16vw,11vh);margin-left:calc(min(16vw,11vh)/-2)}
+  .pill{height:min(8.2vh,13vw);font-size:min(3.8vh,7vw);padding:.35vh 1.5vh .35vh .55vh;gap:.45vh}
+  .pill svg{height:min(6.8vh,11vw);width:min(6.8vh,11vw)}
+  #hud{gap:2vw}
+  #gear{width:min(8.5vh,14vw);height:min(8.5vh,14vw)}
+  /* Paint: tools under HUD, pots along the bottom */
+  #rail{flex-direction:row;left:max(1vh,env(safe-area-inset-left));top:calc(max(1vh,env(safe-area-inset-top)) + 9vh);gap:1.2vw}
+  .tbtn{--s:min(14vw,8.5vh)}
+  #newBtn{top:calc(max(1vh,env(safe-area-inset-top)) + 9vh);--s:min(15vw,9vh)}
+  #sunny{right:max(1vh,env(safe-area-inset-right));top:calc(max(1vh,env(safe-area-inset-top)) + 9vh + min(15vw,9vh) + 1.2vh);width:min(16vw,12vh)}
+  #paint .cameo{right:max(1vh,env(safe-area-inset-right));top:calc(max(1vh,env(safe-area-inset-top)) + 9vh + min(15vw,9vh) + min(16vw,12vh) + 2.4vh);width:min(16vw,11vh)}
+  #palette{padding-left:0;flex-wrap:wrap;justify-content:center;width:min(96vw,560px);--ps:min(14vw,8vh);gap:calc(var(--ps)*.1);bottom:max(1.2vh,env(safe-area-inset-bottom))}
+  /* Barn: three tall-enough doors */
+  #doors{bottom:max(2vh,env(safe-area-inset-bottom));gap:2.2vw;align-items:flex-end}
+  .door{width:min(28vw,30vh);height:min(42vw,38vh)}
+  #daddy{width:min(20vw,16vh)}
+  #barn .cameo{width:min(16vw,12vh)}
+  /* Color Hunt */
+  #items{top:52%;gap:4vw}
+  .item{--is:min(40vw,28vh)}
+  #items[data-n="3"]{gap:2.4vw}
+  #items[data-n="3"] .item{--is:min(28vw,22vh)}
+  #huntSunny{width:min(16vw,12vh)}
+  #hunt .cameo{width:min(16vw,12vh)}
+  /* Peekaboo */
+  #spots{bottom:max(3vh,env(safe-area-inset-bottom));gap:3vw}
+  .spot{width:min(40vw,28vh);height:min(40vw,28vh)}
+  #spots[data-n="3"]{gap:2vw}
+  #spots[data-n="3"] .spot{width:min(28vw,22vh);height:min(28vw,22vh)}
+  #katie{width:min(20vw,16vh)}
+  /* Bubble Pop mascot */
+  #fishy{width:min(22vw,16vh)}
+  /* Sticker Zoo tray + scene buttons (vw so they stay big) */
+  #tray{height:calc(min(16vw,12vh) + 2.4vh)}
+  #trayItems{gap:calc(min(16vw,12vh)*.16)}
+  .titem{width:min(16vw,12vh);height:min(16vw,12vh)}
+  .tarrow{width:min(12vw,9vh);height:min(12vw,9vh)}
+  #sceneBtns{top:calc(max(1.2vh,env(safe-area-inset-top)) + 10vh)}
+  .sceneBtn{--s:min(13vw,9vh)}
+  #zooClear{width:min(12vw,9vh);height:min(12vw,9vh)}
+  /* Dance: 5 dancers still in a row, bigger play button */
+  #dancers{top:18vh;height:48vh;gap:1.2vw}
+  .dancer{width:min(18vw,20vh)}
+  #playBtn{width:min(24vw,16vh);height:min(24vw,16vh);margin-left:calc(min(24vw,16vh)/-2)}
+  #djduck{width:min(22vw,16vh)}
+  /* Album: photo only (toon stacked away), tall portrait frame */
+  #albStage{top:11vh;bottom:8vh;flex-direction:column;gap:1.6vh}
+  #albToon{display:none}
+  #albPhoto{height:min(62vh,88vw / var(--ar,.75));transform:rotate(-1deg)}
+  .albArrow{width:min(14vw,10vh);height:min(14vw,10vh);margin-top:calc(min(14vw,10vh)/-2)}
+  /* Bath toys */
+  #bathToys .toy{width:min(22vw,16vh);height:min(22vw,16vh)}
+  #bubbly{width:min(20vw,14vh)}
+  /* Dress Up: leave a tray band; keep Emmy on-screen */
+  #dressEmmy,#worn{top:9vh;height:calc(100vh - 9vh - 22vh - 3vh);width:min(86vw,calc((100vh - 9vh - 22vh - 3vh)*200/300))}
+  #dressTray{height:auto;width:min(96vw,560px);flex-wrap:wrap;justify-content:center;gap:1vh 2vw;padding:.4vh 1vw 1vh}
+  #dressTray .gitem{width:min(16vw,8.5vh);height:min(16vw,8.5vh)}
+  .gitem{width:min(16vw,12vh);height:min(16vw,12vh)}
+  .ghost{width:min(18vw,13vh);height:min(18vw,13vh)}
+  #gigi{bottom:calc(20vh + 1vh);width:min(16vw,12vh)}
+  #dressClear{width:min(13vw,10vh);height:min(13vw,10vh)}
+  /* Beep Beep */
+  #beepCars{top:14vh;height:62vh;width:min(94vw,1200px);gap:2vh 3vw}
+  #beepCars .vehicle svg{max-height:26vh}
+  #honk{width:min(18vw,13vh)}
+  /* Shapes: board above, tray along the bottom */
+  #shapeTray{left:50%;right:auto;top:auto;bottom:max(1vh,env(safe-area-inset-bottom));transform:translateX(-50%);flex-direction:row;height:min(16vw,12vh);width:auto}
+  #shapeBoard{left:50%;right:auto;top:16vh;transform:translateX(-50%);width:min(92vw,720px);height:auto;min-height:40vh;flex-wrap:wrap;justify-content:center;gap:3vw}
+  #shapeBoard .hole{width:min(28vw,18vh);height:min(28vw,18vh)}
+  #pip{top:max(1.2vh,env(safe-area-inset-top));width:min(16vw,12vh)}
+  /* Feed */
+  #feedAnimals{top:12vh;height:58vh;width:min(96vw,1300px)}
+  #feedAnimals .feeder{width:min(28vw,22vh);height:min(32vw,24vh)}
+  #feedTray{height:min(18vw,14vh)}
+  #yum{bottom:calc(min(18vw,14vh) + 1.2vh);width:min(18vw,13vh)}
+  /* Weather */
+  #wxBtns .wxBtn{width:min(16vw,12vh);height:min(16vw,12vh)}
+  #bluebird{right:8vw;top:18vh;width:min(20vw,16vh)}
+  #wxEverett{left:6vw;bottom:18vh;width:min(22vw,16vh)}
+  #wxSun{right:8vw;top:8vh;width:min(16vw,12vh);height:min(16vw,12vh)}
+  /* Fruit Pop Jar: HUD above the jar, never over it */
+  #fruit.on ~ #hud{left:50%;right:auto;top:max(1vh,env(safe-area-inset-top));transform:translateX(-50%);flex-direction:row;align-items:center;gap:2vw}
+  #fruitHud{left:50%;right:auto;top:calc(max(1vh,env(safe-area-inset-top)) + 8.6vh);transform:translateX(-50%);flex-direction:row;align-items:center;gap:1.4vw}
+  #fruitScoreWrap,#fruitNextWrap{min-width:0;padding:.55vh 1.2vh}
+  #fruitScore,#fruitBest{font-size:2.6vh}
+  #fruitScoreLab,#fruitBestLab,#fruitNextWrap span{font-size:1.5vh}
+  #fruitNext{width:min(8vh,12vw);height:min(8vh,12vw)}
+  #fruitMode{top:calc(max(1.2vh,env(safe-area-inset-top)) + 8.6vh);left:max(1vh,env(safe-area-inset-left));font-size:2vh;min-height:5vh;padding:.55vh 1.2vh}
+  #fruitCV{top:auto;bottom:max(2vh,env(safe-area-inset-bottom));transform:translate(-50%,0);width:min(92vw,calc((100vh - 16vh)*0.90));height:calc(min(92vw,calc((100vh - 16vh)*0.90)) / 0.90)}
+  #fruit.pour #fruitCV{animation:jartiltP 1.2s ease}
+  .fruitWin{top:16vh;bottom:auto;right:max(1.4vw,env(safe-area-inset-right));width:min(12vw,9vh);height:min(10vw,8vh)}
+  #fruitCombo{top:calc(max(1vh,env(safe-area-inset-top)) + 16vh);font-size:4vh}
+  #fruitOver .fcard{min-width:min(88vw,520px);padding:3vh 5vw}
+  /* Book / parent overlays */
+  #bookGrid{--ss:min(22vw,12vh);grid-template-columns:repeat(3,var(--ss));gap:2vh 3vw}
+  #book .tab{width:min(11vw,6.4vh);height:min(11vw,6.4vh)}
+  .bookHead svg{height:min(11vw,6.4vh);width:min(11vw,6.4vh)}
+  #parentCard{min-width:min(92vw,620px);font-size:3vh}
+  #parentCard h2{font-size:3.8vh}
+  .cameo{width:min(16vw,14vh)}
+}
+@keyframes jartiltP{0%{transform:translate(-50%,0) rotate(0)}30%{transform:translate(-50%,0) rotate(16deg)}70%{transform:translate(-50%,0) rotate(-12deg)}100%{transform:translate(-50%,0) rotate(0)}}
+
 </style>
 </head>
 <body>
@@ -1002,7 +1111,9 @@ const cv=$("paper"),cx=cv.getContext("2d");let DPR=1,W=0,H=0;
 function brushW(){return Math.max(22,Math.min(W,H)*.06);}
 function stampS(){return Math.max(60,Math.min(W,H)*.17);}
 function sizePaper(){const w=innerWidth,h=innerHeight;if(w===W&&h===H&&cv.width)return;const old=document.createElement("canvas");old.width=cv.width;old.height=cv.height;if(cv.width)old.getContext("2d").drawImage(cv,0,0);
- DPR=Math.min(2,window.devicePixelRatio||1);W=w;H=h;cv.width=Math.round(w*DPR);cv.height=Math.round(h*DPR);cx.setTransform(1,0,0,1,0,0);cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);if(old.width)cx.drawImage(old,0,0);cx.setTransform(DPR,0,0,DPR,0,0);}
+ DPR=Math.min(2,window.devicePixelRatio||1);W=w;H=h;cv.width=Math.round(w*DPR);cv.height=Math.round(h*DPR);cx.setTransform(1,0,0,1,0,0);cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);
+ if(old.width&&old.height){const sc=Math.min(cv.width/old.width,cv.height/old.height),dw=old.width*sc,dh=old.height*sc;cx.drawImage(old,(cv.width-dw)/2,(cv.height-dh)/2,dw,dh);}
+ cx.setTransform(DPR,0,0,DPR,0,0);}
 function restorePaper(){try{const d=localStorage.getItem(PKEY);if(!d)return;const im=new Image();im.onload=()=>{cx.drawImage(im,0,0,W,H);};im.src=d;}catch(e){}}
 let saveT=0;function savePaperSoon(){clearTimeout(saveT);saveT=setTimeout(()=>{try{const s=Math.min(1,1200/W),c=document.createElement("canvas");c.width=Math.round(W*s);c.height=Math.round(H*s);c.getContext("2d").drawImage(cv,0,0,c.width,c.height);localStorage.setItem(PKEY,c.toDataURL("image/jpeg",.8));}catch(e){}},1200);}
 (function buildPaint(){const rail=$("rail");$("castleBtn").innerHTML=CASTLE;
@@ -1133,6 +1244,8 @@ function spawnBubble(kind,val,y){const W0=innerWidth,H0=innerHeight;const r=Math
  const b={id:++bubId,el,kind,val,s,x:W0*.12+Math.random()*(W0*.76-s),y:y!=null?y:H0+s*.1,v:H0/(10+Math.random()*4),ph:Math.random()*6.28,x0:0};b.x0=b.x;
  el.addEventListener("pointerdown",e=>{e.preventDefault();padMode=false;popBubble(b.id);});el._act=()=>popBubble(b.id);$("bubbleArea").appendChild(el);BUBS.push(b);place(b);return b.id;}
 function place(b){b.el.style.transform="translate("+b.x.toFixed(1)+"px,"+b.y.toFixed(1)+"px)";}
+function bubbleReflow(ow,oh,nw,nh){if(!ow||!oh||!BUBS.length)return;const sx=nw/ow,sy=nh/oh,ss=Math.min(sx,sy);
+ for(const b of BUBS){b.x0*=sx;b.x*=sx;b.y*=sy;b.s*=ss;b.v*=sy;b.el.style.width=b.el.style.height=b.s+"px";place(b);}}
 function bubTick(t){if(screen!=="bubble"){bubRaf=0;return;}const dt=Math.min(.05,(t-bubLast)/1000);bubLast=t;
  for(let i=BUBS.length-1;i>=0;i--){const b=BUBS[i];b.y-=b.v*dt;b.ph+=dt*1.3;b.x=b.x0+Math.sin(b.ph)*b.s*.18;if(b.y<-b.s){b.el.remove();BUBS.splice(i,1);continue;}place(b);}
  if(t>bubSpawnT){if(BUBS.length<6)spawnBubble();bubSpawnT=t+1300+Math.random()*700;}
@@ -1475,9 +1588,12 @@ GAME_IDS.push("fruit");
 SETS.fruit={n:11,label:k=>FRUIT[k][0],svg:(k,e)=>fruitSticker(k,e),dot:k=>FRUIT[k][1],voice:"poppy"};
 const FJ={items:[],held:null,next:0,dropX:.5,score:0,combo:1,comboT:0,grown:false,over:false,pouring:false,pourT:0,warnT:0,cool:0,running:false,raf:0,W:400,H:560,left:0,right:0,bot:0,top:0,line:0,dropY:0,scale:1,uid:1,lastT:0,pop:[],busy:false};
 function fruitRad(type){const base=FJ.grown?1:1.22;return Math.max(10,FRUIT[type][3]*FJ.W*base);}
-function fruitSize(){const cv=$("fruitCV");if(!cv)return;const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
+function fruitSize(){const cv=$("fruitCV");if(!cv)return;const prevW=FJ.W,prevH=FJ.H,r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
  cv.width=Math.max(2,Math.round(r.width*dpr));cv.height=Math.max(2,Math.round(r.height*dpr));
  FJ.W=r.width;FJ.H=r.height;FJ.left=FJ.W*0.08;FJ.right=FJ.W*0.92;FJ.bot=FJ.H*0.92;FJ.top=FJ.H*0.06;FJ.line=FJ.H*0.18;FJ.dropY=FJ.H*0.10;FJ.scale=FJ.W/420;
+ if(prevW>8&&prevH>8&&(Math.abs(prevW-FJ.W)>1||Math.abs(prevH-FJ.H)>1)){const sx=FJ.W/prevW,sy=FJ.H/prevH;
+  for(const f of FJ.items){if(f.dead)continue;f.x*=sx;f.y*=sy;f.vx*=sx;f.vy*=sy;f.r=fruitRad(f.type);if(f.mx)f.mx*=sx;if(f.my)f.my*=sy;}
+  if(FJ.held)FJ.held.x=FJ.left+(FJ.right-FJ.left)*FJ.dropX;if(typeof fruitDraw==="function")fruitDraw();}
  const nx=$("fruitNext");if(nx){const nr=nx.getBoundingClientRect();let nw=nr.width,nh=nr.height;if(nw<8||nh<8){const cs=getComputedStyle(nx);nw=parseFloat(cs.width)||0;nh=parseFloat(cs.height)||0;}if(nw<8||nh<8){nw=Math.max(48,FJ.H*0.1);nh=nw;}nx.width=Math.max(2,Math.round(nw*dpr));nx.height=Math.max(2,Math.round(nh*dpr));fruitDrawNext();}
 }
 function fruitAdd(type,x,y,vx,vy){const f={id:FJ.uid++,type:type,x:x,y:y,vx:vx||0,vy:vy||0,r:fruitRad(type),merge:0,mx:0,my:0,pop:1,squash:0,dead:false};FJ.items.push(f);return f;}
@@ -1732,7 +1848,18 @@ window.addEventListener("keydown",e=>{if(screen!=="home"||anyOverlay())return;co
 /* ================= misc ================= */
 ["gesturestart","gesturechange","dblclick","contextmenu"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 document.addEventListener("touchmove",e=>{if(!e.target.closest||!e.target.closest("input"))e.preventDefault();},{passive:false});
-window.addEventListener("resize",()=>{if(screen==="paint")sizePaper();if(screen==="fruit")fruitSize();});
+let VPW=innerWidth,VPH=innerHeight;
+function onWinResize(){const nw=innerWidth,nh=innerHeight;if(nw===VPW&&nh===VPH){if(screen==="paint")sizePaper();if(screen==="fruit")fruitSize();return;}
+ if(screen==="paint")sizePaper();
+ if(screen==="fruit")fruitSize();
+ if(screen==="bubble")bubbleReflow(VPW,VPH,nw,nh);
+ if(screen==="zoo"){try{renderTray();renderZoo();}catch(e){}}
+ for(const k in curs){const c=curs[k];if(c){c.x=Math.max(0,Math.min(nw,c.x||0));c.y=Math.max(0,Math.min(nh,c.y||0));}}
+ VPW=nw;VPH=nh;}
+window.addEventListener("resize",onWinResize);
+window.addEventListener("orientationchange",()=>setTimeout(onWinResize,60));
+if(window.visualViewport){try{visualViewport.addEventListener("resize",onWinResize);}catch(e){}}
+
 document.addEventListener("visibilitychange",()=>{if(document.hidden){try{SS&&SS.cancel();}catch(e){}save();}});
 window.__ee={get state(){return S;},get screen(){return screen;},openGame,goHome,earnStar,newPaper,pickColor,openBook,showPage,animals:ANIMALS.map(a=>[a[0],a[1],a[2]]),tapDoor,closeDoor,doors:()=>barnDoors.map(d=>({a:d.a,open:d.open})),setDoorAnimal:(i,k)=>{const D=barnDoors[i];D.a=k;D.el.querySelector(".ani").innerHTML=ANIMALS[k][4];},animalSound,huntRound,peekRound,tapSpot,spawnBubble,popBubble,bubbles:()=>BUBS.map(b=>({id:b.id,kind:b.kind,val:b.val,x:b.x,y:b.y,s:b.s})),evVars:EV_VARS.map(v=>v[0]),bubItems:BUB_ITEMS.map(b=>b[0]),doDance,setScene,clearScene,perPage,tuneOn:()=>!!danceTune,setCur:(k,x,y)=>{curs[k]=curs[k]||{};curs[k].x=x;curs[k].y=y;},zoo:()=>JSON.parse(JSON.stringify(zooState())),dances:DANCES.map(d=>d[0]),albumGo,albumTap,photos:PHOTOS.map(p=>p.id),soundCheck,unlockAudio,peekPhotoReveal,acState:()=>AC?AC.state:"none",acSuspend:()=>AC&&AC.suspend(),tapBath,tapBeep,setWeather,clearDress,placeWorn,setHomePage,homePage:()=>homePage,worn:()=>Object.assign({},wornSlots),dressDrop:(k,x,y)=>dressDrop({k},x,y),shapeDrop:(kind,x,y)=>shapeDrop({kind,col:kind,i:kind},x,y),foodDrop:(k,x,y)=>foodDrop({k},x,y),shapeBoard:()=>[...document.querySelectorAll("#shapeBoard .hole")].map(h=>h.getBoundingClientRect()),feedAnimals:()=>[...document.querySelectorAll("#feedAnimals .feeder")].map(h=>h.getBoundingClientRect()),dressBox:()=>{const r=$("dressEmmy").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},wx:()=>window.__weather,fruitMode:()=>FJ.grown?"grown":"toddler",setFruitMode:g=>fruitSetMode(!!g,false),fruitDrop:x=>fruitDropAt(x),fruitSpawn:(t,x,y)=>fruitAdd(t,x,y),fruitList:()=>FJ.items.filter(f=>!f.dead).map(f=>({id:f.id,type:f.type,x:f.x,y:f.y,r:f.r})),fruitScore:()=>FJ.score,fruitBest:()=>S.fruitBest||0,fruitOver:()=>FJ.over,fruitPour:()=>FJ.pouring,fruitNext:()=>FJ.next,fruitHeld:()=>FJ.held&&FJ.held.type,fruitMergePair:t=>fruitTestMerge(t),fruitFillToddler:()=>fruitForceFill(),fruitForceOver:()=>fruitForceOver(),fruitPlantDanger:()=>fruitPlantDanger(),fruitReset:keep=>fruitResetRound(!!keep),fruitBox:()=>{const r=$("fruitCV").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},fruitSetScore:n=>{FJ.score=+n||0;if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}fruitHud();}};
 /* ================= boot ================= */
