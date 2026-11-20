@@ -497,8 +497,8 @@ svg.focus{box-shadow:none!important;filter:drop-shadow(0 0 1vh #fff) drop-shadow
 #jarBtn{bottom:calc(max(2vh,env(safe-area-inset-bottom)) + min(14vh,11vw) + 3vh);border-color:#ffd9a8}
 #gardenBtn{bottom:max(2vh,env(safe-area-inset-bottom));border-color:#c9f0c0;background:#f4fff0}
 .fruitSide svg{width:78%;height:78%;display:block}
-.jarDots{position:absolute;left:50%;bottom:-1.6vh;transform:translateX(-50%);display:flex;gap:.5vh}
-.jarDots i{display:block;width:1.1vh;height:1.1vh;border-radius:50%;background:#e8d6c0;box-shadow:0 0 0 .2vh #fff}
+.jarDots{position:absolute;left:0;right:0;bottom:-1.6vh;display:flex;flex-wrap:wrap;justify-content:center;gap:.35vh}
+.jarDots i{display:block;width:1vh;height:1vh;border-radius:50%;background:#e8d6c0;box-shadow:0 0 0 .2vh #fff}
 .jarDots i.on{background:#ff8a1a}
 #gardenBtn.seed{animation:seedPop .6s ease}
 @keyframes seedPop{0%{transform:scale(1)}40%{transform:scale(1.18) rotate(-6deg)}100%{transform:scale(1)}}
@@ -2262,8 +2262,8 @@ function fruitTickFill(dt){if(FJ.grown||FJ.pouring||FJ.over)return;let high=fals
 }
 /* ---------- smoothie finale (Toddler mode: the full jar becomes a smoothie, then a new jar) ---------- */
 function fruitMixColor(){let r=0,g=0,b=0,w=0;for(const f of FJ.items){if(f.dead)continue;const c=jarItem(f.type)[1],m=/^#?([0-9a-f]{6})$/i.exec(c);if(!m)continue;const n=parseInt(m[1],16),a=f.r*f.r;r+=(n>>16&255)*a;g+=(n>>8&255)*a;b+=(n&255)*a;w+=a;}
- if(!w){const L=(JARS[FJ.jar]||JARS[0]).liquid;return L&&L[0]||"#ff9fb8";}
- r=r/w;g=g/w;b=b/w;/* brighten toward pastel so it looks yummy */r=r*.78+255*.22;g=g*.78+255*.22;b=b*.78+255*.22;
+ if(!w){const L=(JARS[FJ.jar]||JARS[0]).liquid;return L&&(L[1]||L[0])||"#ff9fb8";}
+ r=r/w;g=g/w;b=b/w;/* brighten toward pastel so it looks yummy */r=r*.85+255*.15;g=g*.85+255*.15;b=b*.85+255*.15;
  return "rgb("+(r|0)+","+(g|0)+","+(b|0)+")";}
 function fruitStartPour(){if(FJ.pouring)return;FJ.pouring=true;FJ.busy=false;FJ.pourT=0;FJ.held=null;FJ.warnT=0;
  const cx=(FJ.left+FJ.right)/2,cy=FJ.bot-(FJ.bot-FJ.top)*0.42;
@@ -2271,7 +2271,7 @@ function fruitStartPour(){if(FJ.pouring)return;FJ.pouring=true;FJ.busy=false;FJ.
  FJ.blend={t:0,col:fruitMixColor(),cx:cx,cy:cy,said:0,level:0,spin:0,bubbles:[]};
  $("fruit").classList.add("blend");SFX.chime();say("Smoothie time!","poppy");rumble(lastPad,200,.35);
  window.__lastSfx="blend";window.__fruitPours=(window.__fruitPours||0)+1;
- lastPrefer.fruit=Math.max(0,...FJ.items.map(f=>f.type));awardSticker("fruit");
+ lastPrefer.fruit=Math.max(0,...FJ.items.map(f=>f.type));
 }
 function fruitStepPour(dt){fruitStepBlend(dt);}
 function fruitStepBlend(dt){const B=FJ.blend;if(!B)return;B.t+=dt;const t=B.t,J=JARS[FJ.jar]||JARS[0];
@@ -2291,8 +2291,8 @@ function fruitStepBlend(dt){const B=FJ.blend;if(!B)return;B.t+=dt;const t=B.t,J=
   let unlocked=-1;if(S.fruitJars<JARS.length){S.fruitJars++;unlocked=S.fruitJars-1;FJ.jar=unlocked;S.fruitJar=unlocked;save();fruitApplyJar();}
   fruitNewHeld();for(const k in FJ.pads)FJ.pads[k].type=fruitPickDrop();
   const mid=(FJ.left+FJ.right)/2;fruitAdd(0,mid-FJ.W*0.12,FJ.bot-fruitRad(0),0,0);fruitAdd(1,mid+FJ.W*0.1,FJ.bot-fruitRad(1),0,0);
-  if(unlocked>=0){SFX.unlock();fruitToast(unlocked);say("Hooray! "+JARS[unlocked].unlockLine,"poppy");window.__fruitUnlocks=(window.__fruitUnlocks||0)+1;}
-  else{SFX.chime();say("Again!","poppy");}}
+  if(unlocked>=0){SFX.unlock();fruitToast(unlocked);say("Hooray! "+JARS[unlocked].unlockLine,"poppy");window.__fruitUnlocks=(window.__fruitUnlocks||0)+1;setTimeout(()=>awardSticker("fruit"),3500);}
+  else{SFX.chime();say("Again!","poppy");setTimeout(()=>awardSticker("fruit"),900);}}
 }
 function fruitGameOver(){if(FJ.over)return;FJ.over=true;FJ.held=null;window.__fruitOvers=(window.__fruitOvers||0)+1;window.__lastSfx="over";
  if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}
@@ -2329,7 +2329,7 @@ function fruitDrawNext(){const nx=$("fruitNext");if(!nx)return;const dpr=Math.mi
 function fruitDrawDropper(c,D,col,label,now){const r=fruitRad(D.type),x=D.x,bob=Math.sin(now/260+(label||0))*r*0.06;
  c.strokeStyle=col?col+"88":"rgba(80,50,40,.18)";c.lineWidth=col?3:2;c.setLineDash([6,6]);c.beginPath();c.moveTo(x,FJ.dropY+r);c.lineTo(x,FJ.bot-4);c.stroke();c.setLineDash([]);
  if(col){c.save();c.globalAlpha=.9;c.strokeStyle=col;c.lineWidth=Math.max(3,r*0.14);c.beginPath();c.arc(x,FJ.dropY+bob,r*1.18,0,6.28);c.stroke();
-  const bx=x+r*0.95,by=FJ.dropY+bob-r*0.95,br=Math.max(9,r*0.36);c.fillStyle=col;c.beginPath();c.arc(bx,by,br,0,6.28);c.fill();c.strokeStyle="#fff";c.lineWidth=2;c.stroke();
+  const bx=x+r*0.95,by=FJ.dropY+bob+r*0.9,br=Math.max(9,r*0.36);c.fillStyle=col;c.beginPath();c.arc(bx,by,br,0,6.28);c.fill();c.strokeStyle="#fff";c.lineWidth=2;c.stroke();
   /* tiny controller glyph */c.fillStyle="#fff";c.beginPath();roundRect(c,bx-br*.62,by-br*.32,br*1.24,br*.7,br*.3);c.fill();c.fillStyle=col;c.beginPath();c.arc(bx-br*.3,by+br*.02,br*.13,0,6.28);c.arc(bx+br*.3,by+br*.02,br*.13,0,6.28);c.fill();c.restore();}
  fruitPaint(c,x,FJ.dropY+bob,D.type,r,1,0,{held:1,look:0});}
 function fruitDrawBlender(c,B){const t=B.t,x0=FJ.left-6,w=FJ.right-FJ.left+12,rise=Math.min(1,t/0.7)*(t<4.6?1:Math.max(0,1-(t-4.6)/0.5));
@@ -2901,4 +2901,6 @@ requestAnimationFrame(loop);}catch(e){try{hideBoot();show("home");}catch(e2){try
 if(e.key==="F")F.fill();else if(e.key==="U")F.unlockAll();else if(e.key==="Z")F.sleepAll();else if(e.key==="T")F.tickleAll();
 else if(e.key==="P"){F.padJoin("a");F.padJoin("b");}else if(e.key==="Q"){F.padDrop("a");F.padDrop("b");}
 else if(e.key==="M")F.merge&&F.merge();else if(e.key==="R"&&window.__garden){for(let i=0;i<14;i++)window.__garden.plant(F.jars()[i%7],i%11);}});</script></body>
+</html>
+
 </html>
