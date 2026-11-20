@@ -2463,6 +2463,16 @@ window.__fruit={get FJ(){return FJ;},setJar:j=>fruitSetJar(j,false),unlockAll:()
  FJ.jar=Math.max(0,Math.min(S.fruitJars-1,S.fruitJar|0));fruitApplyJar();
 })();
 window.addEventListener("gamepaddisconnected",e=>{const k=e.gamepad&&e.gamepad.index;if(k!=null&&FJ.pads[k]){delete FJ.pads[k];FJ.padOrder=FJ.padOrder.filter(x=>x!==k);}});
+/* keyboard play for the MacBook: arrows move, space drops, J jar, G garden */
+window.addEventListener("keydown",e=>{if(screen!=="fruit"||(typeof anyOverlay==="function"&&anyOverlay()))return;
+ if(gardenIsOpen()){if(e.key==="Escape"||e.key==="Backspace"){e.preventDefault();gardenClose();}return;}
+ const k=e.key;
+ if(k==="ArrowLeft"||k==="ArrowRight"){e.preventDefault();const r=FJ.held?fruitRad(FJ.held.type):fruitRad(0),w=Math.max(1,FJ.right-FJ.left),lo=r/w,hi=1-r/w;
+  FJ.dropX=Math.max(lo,Math.min(hi,FJ.dropX+(k==="ArrowLeft"?-1:1)*0.07));if(FJ.held)FJ.held.x=FJ.left+w*FJ.dropX;}
+ else if(k===" "||k==="Enter"||k==="ArrowDown"){e.preventDefault();if(!e.repeat)fruitDropAt(NaN);}
+ else if(k==="j"||k==="J"){e.preventDefault();fruitNextJar();}
+ else if(k==="g"||k==="G"){e.preventDefault();gardenOpen();}
+});
 
 /* ================= Emmy's Fruit Garden ================= */
 /* Every merge plants a seed (gardenPlant). Plants grow by local calendar day. Overlay #fruitGarden lives inside #fruit. */
@@ -2887,5 +2897,8 @@ requestAnimationFrame(loop);}catch(e){try{hideBoot();show("home");}catch(e2){try
 
 })();
 </script>
-</body>
+<script>/* preview-only test keys */addEventListener("keydown",e=>{const F=window.__fruit;if(!F)return;
+if(e.key==="F")F.fill();else if(e.key==="U")F.unlockAll();else if(e.key==="Z")F.sleepAll();else if(e.key==="T")F.tickleAll();
+else if(e.key==="P"){F.padJoin("a");F.padJoin("b");}else if(e.key==="Q"){F.padDrop("a");F.padDrop("b");}
+else if(e.key==="M")F.merge&&F.merge();else if(e.key==="R"&&window.__garden){for(let i=0;i<14;i++)window.__garden.plant(F.jars()[i%7],i%11);}});</script></body>
 </html>
