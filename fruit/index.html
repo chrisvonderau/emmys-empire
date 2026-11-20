@@ -2942,7 +2942,8 @@ function drawTip(ctx,gi,x,y,R,W,H,g){var w=gi/5|0,n=gi%5,unl=MS.unl[gi];
   var bw=Math.min(maxW,Math.max(hw,lw)+30),bh=hp*1.4+lines.length*px*1.25+14;
   var above=y-R-bh-26>g.topBar||y+R+bh+30>H-12,bx=clamp(x-bw/2,16,W-16-bw),by=above?y-R-bh-26:y+R+26;
   if(gi===MS.newest&&above)by-=Math.max(15,R*0.5)*2.4+30;
-  by=clamp(by,8,H-bh-8);
+  if(above&&by<(g.topBar||0)+4)by=y+R+26;
+  by=clamp(by,Math.min((g.topBar||0)+4,H-bh-8),H-bh-8);
   ctx.save();ctx.fillStyle="rgba(30,10,50,0.25)";rr(ctx,bx,by+5,bw,bh,16);ctx.fill();ctx.fillStyle="#fffdf7";rr(ctx,bx,by,bw,bh,16);ctx.fill();
   ctx.lineWidth=3;ctx.strokeStyle=theme(w).accent;ctx.stroke();
   txt(ctx,head,bx+bw/2,by+hp*0.85,hp,{fill:shade(theme(w).accent,-0.35),sw:0,maxW:bw-20});
@@ -3861,7 +3862,7 @@ function drawPlay(c){const g=G,R=g.rect,t=FPJ.t;
  ui("drawHUD",c,W,H,hud());}
 function drawDroppers(c){const g=G,R=g.rect,t=FPJ.t;
  // next-up bubble
- const nr=Math.max(12,radius(0)*.95),land=W>H*1.05,nx=land?R.x+R.w+nr*2.2:R.x+R.w-nr-6,ny=land?Math.max(num(ui("safeTop"),80)+nr*2.4,g.dropY):Math.max(num(ui("safeTop"),80)+nr*2.4,g.dropY-radius(4)-nr*.4);
+ const nr=Math.max(12,radius(0)*.95),land=W>H*1.05,nx=land?R.x+R.w+nr*2.2:R.x+R.w-nr-6,ny=land?Math.max(num(ui("safeTop"),80)+nr*2.4,g.dropY):(g.boss?R.y+nr*2.2:Math.max(num(ui("safeTop"),80)+nr*2.4,g.dropY-radius(4)-nr*.4));
  c.save();c.globalAlpha=.85;c.fillStyle="rgba(255,255,255,.55)";c.beginPath();c.arc(nx,ny,nr*1.35,0,TAU);c.fill();c.globalAlpha=1;
  c.fillStyle="rgba(60,40,60,.75)";c.font="900 "+Math.round(Math.max(10,nr*.55))+"px "+FONT;c.textAlign="center";c.textBaseline="bottom";c.fillText("next",nx,ny-nr*1.35);c.restore();
  drawThing(c,"item",g.w,g.next,nx,ny,nr,0,"smile",0);
