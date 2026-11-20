@@ -2491,7 +2491,7 @@ function drawBanner(ctx,g,w,W,H,t){var th=theme(w),name=WORLD_NAMES[w],locked=!w
     var sMid=MS.cam+H*0.5,wm=clamp(Math.floor((sMid-g.start)/g.L),0,6);if(w!==wm)return;var bsz2=g.short?56:64,l0=g.s.l+bsz2+10,r0=W-g.s.r-starPillW(bsz2*0.72,W<500)-10;
     if(bw>r0-l0){var k2=(r0-l0)/bw;px*=k2;h=px*2.1;ctx.font=fnt(px);tw=ctx.measureText(name).width;bw=tw+h*1.6+(locked?h*0.7:0);}
     x=clamp(W/2-bw/2,l0,r0-bw);y=g.s.t+(bsz2-h)/2;}
-  else{var x0=a0-MS.cam,x1=a1-MS.cam,bsz=g.short?56:64;if(x1<0||x0>W)return;x=clamp(x0+18,g.s.l+bsz+14,x1-bw-18);if(x+bw<0||x>W)return;
+  else{var x0=a0-MS.cam,x1=a1-MS.cam,bsz=g.short?56:64;if(x1<0||x0>W)return;x=Math.min(Math.max(x0+18,g.s.l+bsz+10),x1-bw-18);if(x+bw<0||x>W)return;
     y=g.s.t+(bsz-h)/2;var minX=g.s.l+bsz+10,maxR=W-g.s.r-starPillW(bsz*0.72)-12;if(x<minX-1||x+bw>maxR)return;}
   ctx.save();ctx.fillStyle="rgba(30,10,40,0.25)";rr(ctx,x,y+5,bw,h,h*0.5);ctx.fill();
   var gr=ctx.createLinearGradient(0,y,0,y+h);gr.addColorStop(0,shade(th.accent,0.25));gr.addColorStop(1,shade(th.accent,-0.12));ctx.fillStyle=gr;rr(ctx,x,y,bw,h,h*0.5);ctx.fill();
