@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="ee-version" content="0.8">
+<meta name="ee-version" content="0.9">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Emmy's Empire</title>
@@ -1665,7 +1665,7 @@ function newPaper(){if(wiping)return;wiping=true;const w=$("wipe");w.classList.r
  setTimeout(()=>{cx.setTransform(1,0,0,1,0,0);cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);cx.setTransform(DPR,0,0,DPR,0,0);try{localStorage.removeItem(PKEY);}catch(e){}},500);
  setTimeout(()=>{w.classList.remove("go");wiping=false;},1050);}
 let restored=false;
-function openGame(id){if(GAME_IDS.indexOf(id)<0&&id!=="zoo")return;S.lastGame=id;save();clearFocus();gFocus=null;show(id);
+function openGame(id){if(GAME_IDS.indexOf(id)<0&&id!=="zoo")return;S.lastGame=id;save();if(id==="fruit"){try{SS&&SS.cancel();}catch(e){}location.href="fruit/";return;}clearFocus();gFocus=null;show(id);
  if(id==="paint"){if(!restored){restored=true;restorePaper();}setTool(S.tool||"brush");pickColor(S.color,null,true);SFX.fanfare();say("Hi! I'm Sunny! Let's paint!","sunny");}
  else if(id==="barn")barnEnter();else if(id==="hunt")huntEnter();else if(id==="peek")peekEnter();else if(id==="bubble")bubbleEnter();else if(id==="zoo")zooEnter();else if(id==="album")albumEnter();else if(id==="dance")danceEnter();else if(id==="bath")bathEnter();else if(id==="dress")dressEnter();else if(id==="beep")beepEnter();else if(id==="shapes")shapesEnter();else if(id==="feed")feedEnter();else if(id==="weather")weatherEnter();else if(id==="fruit")fruitEnter();}
 function goHome(){const was=screen;if(was==="fruit")fruitLeave();if(was==="dance"){stopTune();clearTimeout(danceT);$("lights").classList.remove("on");}if(was==="zoo"){[...drags.keys()].forEach(k=>endDrag(k,0,innerHeight,true));}[...gdrags.keys()].forEach(k=>gEnd(k,0,0,true));clearTimeout(peekT);clearTimeout(peekHintT);if(was==="bubble"){BUBS.splice(0).forEach(b=>b.el.remove());document.querySelectorAll(".reveal").forEach(x=>x.remove());}strokes.clear();if(was==="paint")savePaperSoon();clearTimeout(huntT);clearTimeout(barnSay);barnDoors.forEach(D=>{clearTimeout(D.t);D.open=false;D.el.classList.remove("open");});clearFocus();show("home");selIdx=-1;bubbles.forEach(b=>b.classList.remove("sel"));SFX.pop();rumble(lastPad,120,.3);say("Home!","home");const gi=GAMES.findIndex(g=>g[0]===was);if(gi>=0)setHomePage(Math.floor(gi/PAGE_SZ),false);if(padMode)setHomeFocus(pageBubbles()[0]||bubbles[0],false);}
@@ -2892,9 +2892,9 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden){try{SS&&SS
 window.__ee={get state(){return S;},get screen(){return screen;},openGame,goHome,earnStar,newPaper,pickColor,openBook,showPage,animals:ANIMALS.map(a=>[a[0],a[1],a[2]]),tapDoor,closeDoor,doors:()=>barnDoors.map(d=>({a:d.a,open:d.open})),setDoorAnimal:(i,k)=>{const D=barnDoors[i];D.a=k;D.el.querySelector(".ani").innerHTML=ANIMALS[k][4];},animalSound,huntRound,peekRound,tapSpot,spawnBubble,popBubble,bubbles:()=>BUBS.map(b=>({id:b.id,kind:b.kind,val:b.val,x:b.x,y:b.y,s:b.s})),evVars:EV_VARS.map(v=>v[0]),bubItems:BUB_ITEMS.map(b=>b[0]),doDance,setScene,clearScene,perPage,tuneOn:()=>!!danceTune,setCur:(k,x,y)=>{curs[k]=curs[k]||{};curs[k].x=x;curs[k].y=y;},zoo:()=>JSON.parse(JSON.stringify(zooState())),dances:DANCES.map(d=>d[0]),albumGo,albumTap,photos:PHOTOS.map(p=>p.id),soundCheck,unlockAudio,peekPhotoReveal,acState:()=>AC?AC.state:"none",acSuspend:()=>AC&&AC.suspend(),tapBath,tapBeep,setWeather,clearDress,placeWorn,setHomePage,homePage:()=>homePage,worn:()=>Object.assign({},wornSlots),dressDrop:(k,x,y)=>dressDrop({k},x,y),shapeDrop:(kind,x,y)=>shapeDrop({kind,col:kind,i:kind},x,y),foodDrop:(k,x,y)=>foodDrop({k},x,y),shapeBoard:()=>[...document.querySelectorAll("#shapeBoard .hole")].map(h=>h.getBoundingClientRect()),feedAnimals:()=>[...document.querySelectorAll("#feedAnimals .feeder")].map(h=>h.getBoundingClientRect()),dressBox:()=>{const r=$("dressEmmy").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},wx:()=>window.__weather,fruitMode:()=>FJ.grown?"grown":"toddler",setFruitMode:g=>fruitSetMode(!!g,false),fruitDrop:x=>fruitDropAt(x),fruitSpawn:(t,x,y)=>fruitAdd(t,x,y),fruitList:()=>FJ.items.filter(f=>!f.dead).map(f=>({id:f.id,type:f.type,x:f.x,y:f.y,r:f.r})),fruitScore:()=>FJ.score,fruitBest:()=>S.fruitBest||0,fruitOver:()=>FJ.over,fruitPour:()=>FJ.pouring,fruitNext:()=>FJ.next,fruitHeld:()=>FJ.held&&FJ.held.type,fruitMergePair:t=>fruitTestMerge(t),fruitFillToddler:()=>fruitForceFill(),fruitForceOver:()=>fruitForceOver(),fruitPlantDanger:()=>fruitPlantDanger(),fruitReset:keep=>fruitResetRound(!!keep),fruitBox:()=>{const r=$("fruitCV").getBoundingClientRect();return[r.left,r.top,r.width,r.height];},fruitSetScore:n=>{FJ.score=+n||0;if(FJ.score>(S.fruitBest||0)){S.fruitBest=FJ.score;save();}fruitHud();}};
 /* ================= boot ================= */
 updHud();sizePaper();
-try{if(GAME_IDS.indexOf(S.lastGame)>=0||S.lastGame==="zoo"){openGame(S.lastGame);}else{show("home");}
+try{if((GAME_IDS.indexOf(S.lastGame)>=0&&S.lastGame!=="fruit")||S.lastGame==="zoo"){openGame(S.lastGame);}else{show("home");}
 requestAnimationFrame(loop);}catch(e){try{hideBoot();show("home");}catch(e2){try{var h=document.getElementById("home");if(h)h.classList.add("on");hideBoot();}catch(e3){}}}
-if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){const had=!!navigator.serviceWorker.controller;let rl=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!rl){rl=true;location.reload();}});window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
 })();
 </script>
 </body>

@@ -3489,7 +3489,7 @@ function hud(){const g=G,L=g.L;const pw=[];
  for(const id of POWERS){if(!powerOK(id))continue;pw.push({id,n:P.powers[id]|0,ready:(P.powers[id]|0)>0&&g.state==="play"&&!armed(),sel:POWERS[g.powerSel]===id});}
  const lit=g.endless?0:L.stars.filter(s=>g.score>=s).length;
  return {score:Math.round(g.shown),goalText:g.endless?"Next jar at "+fmt(g.rollAt):L.text,progress:clamp(progress(),0,1),starsLit:lit,combo:g.combo>=2?g.combo:0,
-  comboT:g.combo>=2?clamp(g.comboT/1.3,0,1):0,powers:pw,boss:g.boss?{name:g.boss.name,hp:clamp(g.boss.hp/g.boss.hpMax,0,1)}:null,endless:g.endless,
+  comboT:g.combo>=2?clamp(g.comboT/1.3,0,1):0,powers:(g.state==="finale"?[]:pw),boss:g.boss?{name:g.boss.name,hp:clamp(g.boss.hp/g.boss.hpMax,0,1)}:null,endless:g.endless,
   best:g.endless?P.endless:FPJ.bestOf(g.w,g.n),world:g.w,level:g.n,mode:FPJ.mode(),players:g.drop.map(d=>({color:d.color,label:d.label||"Emmy"})),
   next:{w:g.w,tier:g.next},jar:g.rect,powerZone:g.powerZone,danger:g.danger};}
 function armed(){return G.drop.some(d=>d.kind!=="item");}
@@ -3961,14 +3961,9 @@ window.__fpj={get G(){return G;},get P(){return P;},get S(){return S;},get W(){r
 if(document.readyState==="loading"&&document.addEventListener)document.addEventListener("DOMContentLoaded",boot);else boot();
 })();
 
-/* preview-only test keys */
-addEventListener("keydown",function(e){var T=window.__fpj,F=window.FPJ;if(!T)return;var k=e.key;
- if(k==="9")T.unlockAll();else if(k==="8")T.win();else if(k==="7")T.bossHp(0.02);else if(k==="6")T.fill(14);else if(k==="5")T.merge(6);else if(k==="4")T.lose();
- else if(k==="0")F.startLevel(0,4);else if(k==="3"&&e.shiftKey)F.startLevel(3,4);else if(k==="m")F.go("map");else if(k==="t")F.go("title");else if(k==="h")F.setMode("hard");});
-
 </script>
 <script>
 (function(){var b=document.getElementById("boot");function off(){if(b)b.classList.add("off");setTimeout(function(){b&&b.remove();},600);}if(document.readyState!=="loading")setTimeout(off,250);else document.addEventListener("DOMContentLoaded",function(){setTimeout(off,250);});})();
-
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){var had=!!navigator.serviceWorker.controller,rl=false;navigator.serviceWorker.addEventListener("controllerchange",function(){if(had&&!rl){rl=true;location.reload();}});window.addEventListener("load",function(){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(function(){});});}
 </script>
 </body></html>
