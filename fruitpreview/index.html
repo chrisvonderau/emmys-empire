@@ -3461,7 +3461,9 @@ function layout(){const old=G.rect;const st=clamp(num(ui("safeTop"),80),0,H*0.4)
  const dzH=availH*0.2;let jh=availH-dzH;const side=portrait?14:Math.max(80,W*0.11);
  let jw=Math.min(W-2*side,jh*0.8);jw=Math.max(120,jw);if(jh>jw*1.65)jh=jw*1.65;
  const x=(W-jw)/2,y=top+bossH+availH-jh;
- const R={x,y,w:jw,h:jh};G.rect=R;G.s=jw/360;G.base=jw*0.25/3.7;
+ let R={x,y,w:jw,h:jh};
+ try{const o=FPJ.art&&FPJ.art.jarOuter&&FPJ.art.jarOuter(R);const lim=H-(portrait?bottomRes:10);if(o&&isFinite(o.bottom)&&o.bottom>lim){const over=o.bottom-lim;const nh=Math.max(120,jh-over),nw=Math.min(jw,nh/1.65>jw?jw:Math.max(120,jw*(nh/jh)));R={x:(W-nw)/2,y:y,w:nw,h:nh};}}catch(e){}
+ G.rect=R;G.s=R.w/360;G.base=R.w*0.25/3.7;
  G.dropY=Math.max(top+bossH+radius(3)*0.6,y-Math.max(radius(4)*1.05,dzH*0.5));
  G.bossBand={y:top,h:bossH};
  G.powerZone=portrait?{x:R.x,y:R.y+R.h+8,w:R.w,h:Math.max(40,H-(R.y+R.h)-12),side:"bottom"}:{x:R.x+R.w+14,y:R.y,w:Math.max(56,Math.min(130,W-(R.x+R.w)-24)),h:R.h,side:"right"};
@@ -3859,7 +3861,7 @@ function drawPlay(c){const g=G,R=g.rect,t=FPJ.t;
  ui("drawHUD",c,W,H,hud());}
 function drawDroppers(c){const g=G,R=g.rect,t=FPJ.t;
  // next-up bubble
- const nr=Math.max(12,radius(0)*.95),nx=R.x+R.w-nr-6,ny=Math.max(nr+4,g.dropY-radius(4)-nr*.4);
+ const nr=Math.max(12,radius(0)*.95),land=W>H*1.05,nx=land?R.x+R.w+nr*2.2:R.x+R.w-nr-6,ny=land?Math.max(num(ui("safeTop"),80)+nr*2.4,g.dropY):Math.max(num(ui("safeTop"),80)+nr*2.4,g.dropY-radius(4)-nr*.4);
  c.save();c.globalAlpha=.85;c.fillStyle="rgba(255,255,255,.55)";c.beginPath();c.arc(nx,ny,nr*1.35,0,TAU);c.fill();c.globalAlpha=1;
  c.fillStyle="rgba(60,40,60,.75)";c.font="900 "+Math.round(Math.max(10,nr*.55))+"px "+FONT;c.textAlign="center";c.textBaseline="bottom";c.fillText("next",nx,ny-nr*1.35);c.restore();
  drawThing(c,"item",g.w,g.next,nx,ny,nr,0,"smile",0);
@@ -3960,8 +3962,9 @@ if(document.readyState==="loading"&&document.addEventListener)document.addEventL
 })();
 
 /* preview-only test keys */
-addEventListener("keydown",function(e){var T=window.__fpj;if(!T)return;var k=e.key;
- if(k==="9")T.unlockAll();else if(k==="8")T.win();else if(k==="7")T.bossHp(0.02);else if(k==="6")T.fill(14);else if(k==="5")T.merge(6);else if(k==="4")T.lose();});
+addEventListener("keydown",function(e){var T=window.__fpj,F=window.FPJ;if(!T)return;var k=e.key;
+ if(k==="9")T.unlockAll();else if(k==="8")T.win();else if(k==="7")T.bossHp(0.02);else if(k==="6")T.fill(14);else if(k==="5")T.merge(6);else if(k==="4")T.lose();
+ else if(k==="0")F.startLevel(0,4);else if(k==="3"&&e.shiftKey)F.startLevel(3,4);else if(k==="m")F.go("map");else if(k==="t")F.go("title");else if(k==="h")F.setMode("hard");});
 
 </script>
 <script>
