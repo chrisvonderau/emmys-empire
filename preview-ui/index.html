@@ -2548,7 +2548,7 @@ function drawTip(ctx,gi,x,y,R,W,H,g){var w=gi/5|0,n=gi%5,unl=MS.unl[gi];
 /* ================= OVERLAYS (cards) ================= */
 function closeMe(o){if(F.overlay===o)call("closeOverlay");}
 function planRows(n,pi,width,minW,gap){if(n*minW+(n-1)*gap<=width)return [n];var per=Math.max(1,Math.floor((width+gap)/(minW+gap)));
-  var rows=[];var rest=n;if(pi>=0){rows.push(1);rest--;}while(rest>0){var c=Math.min(per,rest);rows.push(c);rest-=c;}return rows;}
+  var rows=[];var rest=n;if(pi>=0){rows.push(1);rest--;}var nr=Math.ceil(rest/per);while(nr>0){var c=Math.ceil(rest/nr);rows.push(c);rest-=c;nr--;}return rows;}
 function makeCard(o){var C={t:0,o:o,layer:new Layer(),parts:new Parts(),box:null,done:false};
   C.layer.onBack=function(){if(o.onBack)o.onBack(C);};C.layer.onStart=function(){if(o.onStart)o.onStart(C);};
   C.enter=function(){};C.exit=function(){C.layer.clearPtr();};
@@ -2653,16 +2653,16 @@ UI.endlessOver=function(info){info=info||{};var score=Math.max(0,fin(info.score,
   sfx("win");var d=dims();fx("confetti",d.W/2,-10,100);call("openOverlay",C);return C;};
 
 UI.pause=function(){var C=makeCard({color:"#3d8bff",dim:0.55,title:"Paused",pulse:false,maxW:620,
-    bodyH:function(bw,short){return short?0:110;},minBody:0,
+    bodyH:function(bw,short){return short?0:124;},minBody:0,
     buttons:function(){var m=musicOn(),s=sfxOn();return [{id:"resume",label:"Resume",icon:"play",color:"#22c55e",primary:true,on:function(){closeMe(C);}},
       {id:"map",label:"Map",icon:"map",color:"#3d8bff",on:function(){closeMe(C);call("go","map");}},
       {id:"sound",label:s?"Sound on":"Sound off",icon:s?"soundOn":"soundOff",color:s?"#16b38a":"#8a93a3",on:function(){setSfx(!sfxOn());}},
       {id:"music",label:m?"Music on":"Music off",icon:"music",color:m?"#ff9f1c":"#8a93a3",on:function(){setMusic(!musicOn());}},
       {id:"home",label:"Home",icon:"castle",color:"#b07cff",hold:true,on:function(){closeMe(C);call("home");}}];},
     onBack:function(){sfx("click");closeMe(C);},onStart:function(){sfx("click");closeMe(C);},
-    body:function(ctx,C,b){if(b.h<40)return;var cx=b.x+b.w/2,R=Math.min(b.h*0.32,34);drawItem(ctx,0,7,cx,b.y+R+4+Math.sin(C.t*2)*3,R,Math.sin(C.t)*0.1,"sleep",C.t);
-      txt(ctx,"Taking a little break!",cx,b.y+R*2+28,Math.min(22,b.h*0.2),{fill:"#5a4a8a",sw:0,maxW:b.w});
-      txt(ctx,"Hold Home to leave",cx,b.y+R*2+28+Math.min(22,b.h*0.2)*1.2,13,{fill:"#9a8aaa",sw:0,weight:800});}});
+    body:function(ctx,C,b){if(b.h<60)return;var cx=b.x+b.w/2,R=Math.min(b.h*0.24,32),fs=Math.min(22,b.h*0.18);drawItem(ctx,0,7,cx,b.y+R+2+Math.sin(C.t*2)*3,R,Math.sin(C.t)*0.1,"sleep",C.t);
+      txt(ctx,"Taking a little break!",cx,b.y+R*2+10+fs*0.6,fs,{fill:"#5a4a8a",sw:0,maxW:b.w});
+      txt(ctx,"Hold Home to leave",cx,b.y+R*2+14+fs*1.75,13,{fill:"#9a8aaa",sw:0,weight:800});}});
   call("openOverlay",C);return C;};
 
 UI.bossIntro=function(w,onDone){w=clamp(fin(w,0)|0,0,6);var t=0,closed=false,said=false,landed=false,O={};var th=theme(w),line=BOSS_LINES[w];
