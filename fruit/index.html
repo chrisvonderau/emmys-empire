@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#ffb648"><meta name="ee-version" content="2.0">
+<meta name="theme-color" content="#ffb648"><meta name="ee-version" content="2.0.1">
 <title>Fruit Pop Jar</title>
 <link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
 <style>
@@ -2215,11 +2215,33 @@ function fadeAll(sec){
 }
 
 /* ---------- public: lifecycle & music ---------- */
+/* iOS: play through the silent switch, and wake audio only on gestures Safari accepts (touchend/click/keydown) */
+var htmlEl=null;
+function silentWav(){ // 0.5 s of silence, 8 kHz mono 8-bit
+  var n=4000,b=new Uint8Array(44+n),v=new DataView(b.buffer),i;
+  function str(o,t){for(var k=0;k<t.length;k++)b[o+k]=t.charCodeAt(k);}
+  str(0,"RIFF");v.setUint32(4,36+n,true);str(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+  v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);str(36,"data");v.setUint32(40,n,true);
+  for(i=0;i<n;i++)b[44+i]=128;
+  var bin="";for(i=0;i<b.length;i++)bin+=String.fromCharCode(b[i]);return "data:audio/wav;base64,"+window.btoa(bin);
+}
+function playbackSession(){
+  try{var n=window.navigator;if(n&&n.audioSession){if(n.audioSession.type!=="playback")n.audioSession.type="playback";return;}}catch(e){}
+  try{ // older iOS: a playing <audio> element moves the page to the media channel, which ignores the silent switch
+    if(!htmlEl&&window.document&&window.document.createElement&&window.btoa){htmlEl=window.document.createElement("audio");
+      htmlEl.setAttribute("x-webkit-airplay","deny");htmlEl.setAttribute("playsinline","");htmlEl.preload="auto";htmlEl.loop=true;htmlEl.src=silentWav();}
+    if(htmlEl&&htmlEl.paused&&htmlEl.play){var q=htmlEl.play();if(q&&q.catch)q.catch(function(){});}
+  }catch(e){}
+}
+function onGesture(){unlock();}
 function init(){
   var P=FPJ.P;if(P){musicEnabled=P.music!==false;sfxEnabled=P.sfx!==false;}
   if(!visHooked&&window.document&&window.document.addEventListener){visHooked=true;
-    window.document.addEventListener("visibilitychange",function(){if(!AC)return;
-      try{if(window.document.hidden){var p=AC.suspend();if(p&&p.catch)p.catch(function(){});}else resume();}catch(e){}});}
+    var d=window.document,o={capture:true,passive:true};
+    ["touchend","pointerup","mouseup","click","keydown"].forEach(function(t){try{d.addEventListener(t,onGesture,o);}catch(e){}});
+    d.addEventListener("visibilitychange",function(){if(!AC)return;
+      try{if(d.hidden){var p=AC.suspend();if(p&&p.catch)p.catch(function(){});if(htmlEl&&htmlEl.pause)htmlEl.pause();}else resume();}catch(e){}});
+    try{window.addEventListener("pageshow",function(){resume();});window.addEventListener("focus",function(){resume();});}catch(e){}}
 }
 function unlock(){
   if(!Ctor)return false;
@@ -2228,6 +2250,7 @@ function unlock(){
     try{build();}catch(e){if(window.console)console.warn("audio build",e);AC=null;return false;}
     var P=FPJ.P;if(P){musicEnabled=P.music!==false;sfxEnabled=P.sfx!==false;}
   }
+  playbackSession();
   if(AC.state!=="running"||!primed){resume();silent();primed=true;}
   applyVolume();
   if(want&&musicEnabled&&!cur)cur=startTrack(want);
@@ -2244,10 +2267,11 @@ function music(name){
 }
 function setMusic(on){
   musicEnabled=!!on;if(FPJ.P)FPJ.P.music=musicEnabled;
+  if(musicEnabled&&AC)unlock();
   if(!AC)return;
   if(!musicEnabled)fadeAll(.5);else if(want&&!cur)cur=startTrack(want);
 }
-function setSfx(on){sfxEnabled=!!on;if(FPJ.P)FPJ.P.sfx=sfxEnabled;}
+function setSfx(on){sfxEnabled=!!on;if(FPJ.P)FPJ.P.sfx=sfxEnabled;if(sfxEnabled&&AC)unlock();}
 function musicOn(){return musicEnabled;}
 function sfxOn(){return sfxEnabled;}
 
@@ -3377,7 +3401,7 @@ function dispatch(ev){const o=FPJ.overlay;
  try{if(o&&typeof o.input==="function"){o.input(ev);return;}if(o)return;const s=FPJ.screens[FPJ.screen];if(s&&typeof s.input==="function")s.input(ev);}catch(e){err(e,"input "+ev.type);}}
 FPJ.dispatch=dispatch;
 let audioTries=0;
-function unlockAudio(){if(audioTries>40)return;audioTries++;call("audio","unlock",[]);}
+function unlockAudio(){audioTries++;call("audio","unlock",[]);}
 /* keyboard */
 const KEYMAP={ArrowLeft:"left",ArrowRight:"right",ArrowUp:"up",ArrowDown:"down",Enter:"A"," ":"A",Spacebar:"A",Escape:"B",Backspace:"B",x:"X",X:"X",y:"Y",Y:"Y",g:"Y",G:"Y",p:"start",P:"start",q:"LB",Q:"LB",e:"RB",E:"RB"};
 const keyHeld={};
